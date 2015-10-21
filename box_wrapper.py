@@ -1,8 +1,4 @@
-from boxsdk.object.file import File
-from boxsdk.object.folder import Folder
-
-
-class BoxFile(File):
+class BoxFile(object):
 
     """Wrapper for BoxSDK File"""
 
@@ -18,12 +14,13 @@ class BoxFile(File):
     @property
     def shared_link(self):
         if not hasattr(self, '_shared_link'):
-            self._shared_link = self._box_file.get('shared_link')
+            print("Setting shared link")
+            self._shared_link = self._box_file.get()['shared_link']
         return self._shared_link
 
     @property
     def has_shared_link(self):
-        return self._shared_link is not None
+        return (self.shared_link is not None)
 
     def enable_shared_link(self):
         if not self.has_shared_link:

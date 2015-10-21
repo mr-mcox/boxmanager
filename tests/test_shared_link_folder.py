@@ -23,6 +23,7 @@ def folder_with_files(monkeypatch, mocked_folder):
     bf = mocked_folder
     return bf
 
+
 @pytest.fixture
 def nested_folder(monkeypatch, mocked_folder):
     monkeypatch.setattr(BoxFolder, 'set_box_item', MagicMock())
@@ -50,6 +51,7 @@ def test_enable_shared_link_no_call_when_present(monkeypatch, mocked_folder):
         box_folder.enable_shared_link()
     sl_mock.assert_not_called()
 
+
 def test_enable_shared_link_recursive_only_file(monkeypatch,
                                                 folder_with_files):
     box_folder = folder_with_files
@@ -57,8 +59,9 @@ def test_enable_shared_link_recursive_only_file(monkeypatch,
     for item in box_folder.items:
         item.enable_shared_link.assert_called_with()
 
+
 def test_enable_shared_link_nested(monkeypatch,
-                                nested_folder):
+                                   nested_folder):
     box_folder = nested_folder
     box_folder.enable_shared_link(recursive=True)
     for item in box_folder.items:

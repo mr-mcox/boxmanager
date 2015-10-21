@@ -5,9 +5,9 @@ import pytest
 
 @pytest.fixture
 def mocked_file(monkeypatch):
-    monkeypatch.setattr(BoxFile, 'set_box_file', MagicMock)
+    monkeypatch.setattr(BoxFile, 'set_box_item', MagicMock)
     bf = BoxFile(None, None)
-    bf._box_file = MagicMock()
+    bf._box_item = MagicMock()
     return bf
 
 

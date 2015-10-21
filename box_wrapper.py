@@ -49,6 +49,9 @@ class BoxFolder(BoxItem):
 
     def __init__(self, client=None, folder_id=None, item=None):
         super(BoxFolder, self).__init__()
+
+        self.item_limit = 100
+
         if item is not None:
             self._box_item = item
         else:
@@ -60,7 +63,7 @@ class BoxFolder(BoxItem):
     @property
     def items(self):
         if not hasattr('self', '_items'):
-            box_items = self._box_item.get_items(100)
+            box_items = self._box_item.get_items(self.item_limit)
             items = list()
             for item in box_items:
                 if type(item) is File:

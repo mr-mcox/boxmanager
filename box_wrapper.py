@@ -42,11 +42,11 @@ class BoxFile(BoxItem):
         :param file_id:
             Box generated id for the file
         :type file_id:
-            'int'
+            `int`
         :param item:
             The Box item
         :type item:
-            :class: 'File'
+            :class: `File`
         """
         super(BoxFile, self).__init__()
         if item is not None:
@@ -73,11 +73,11 @@ class BoxFolder(BoxItem):
         :param folder_id:
             Box generated id for the folder
         :type folder_id:
-            'int'
+            `int`
         :param item:
             The Box item
         :type item:
-            :class: 'Folder'
+            :class: `Folder`
         """
 
         super(BoxFolder, self).__init__()

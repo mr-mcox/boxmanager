@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Box Wrapper &mdash; Box Manager 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Box Manager 0.1 documentation" href="index.html" />
+    <link rel="prev" title="Box Wrapper" href="authenticate.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="authenticate.html" title="Box Wrapper"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Box Manager 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-boxmanager.box_wrapper">
+<span id="box-wrapper"></span><h1>Box Wrapper<a class="headerlink" href="#module-boxmanager.box_wrapper" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="boxmanager.box_wrapper.BoxFile">
+<em class="property">class </em><tt class="descclassname">boxmanager.box_wrapper.</tt><tt class="descname">BoxFile</tt><big>(</big><em>client=None</em>, <em>file_id=None</em>, <em>item=None</em><big>)</big><a class="reference internal" href="_modules/boxmanager/box_wrapper.html#BoxFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#boxmanager.box_wrapper.BoxFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrapper for BoxSDK File</p>
+<dl class="method">
+<dt id="boxmanager.box_wrapper.BoxFile.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>client=None</em>, <em>file_id=None</em>, <em>item=None</em><big>)</big><a class="reference internal" href="_modules/boxmanager/box_wrapper.html#BoxFile.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#boxmanager.box_wrapper.BoxFile.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>File must be initated with either the client and file_id
+or an already created Box File</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>client</strong> (<tt class="xref py py-class docutils literal"><span class="pre">Client</span></tt>) &#8211; The Box Client</li>
+<li><strong>file_id</strong> (<cite>int</cite>) &#8211; Box generated id for the file</li>
+<li><strong>item</strong> &#8211; The Box item</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="boxmanager.box_wrapper.BoxFolder">
+<em class="property">class </em><tt class="descclassname">boxmanager.box_wrapper.</tt><tt class="descname">BoxFolder</tt><big>(</big><em>client=None</em>, <em>folder_id=None</em>, <em>item=None</em><big>)</big><a class="reference internal" href="_modules/boxmanager/box_wrapper.html#BoxFolder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#boxmanager.box_wrapper.BoxFolder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrapper for BoxSDK Folder</p>
+<dl class="method">
+<dt id="boxmanager.box_wrapper.BoxFolder.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>client=None</em>, <em>folder_id=None</em>, <em>item=None</em><big>)</big><a class="reference internal" href="_modules/boxmanager/box_wrapper.html#BoxFolder.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#boxmanager.box_wrapper.BoxFolder.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Folder must be initated with either the client and folder_id
+or an already created Box Folder</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>client</strong> (<tt class="xref py py-class docutils literal"><span class="pre">Client</span></tt>) &#8211; The Box Client</li>
+<li><strong>folder_id</strong> (<cite>int</cite>) &#8211; Box generated id for the folder</li>
+<li><strong>item</strong> &#8211; The Box item</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="boxmanager.box_wrapper.BoxFolder.enable_shared_link">
+<tt class="descname">enable_shared_link</tt><big>(</big><em>recursive=False</em><big>)</big><a class="reference internal" href="_modules/boxmanager/box_wrapper.html#BoxFolder.enable_shared_link"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#boxmanager.box_wrapper.BoxFolder.enable_shared_link" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enable shared link for the folder</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>recursive</strong> (<cite>bool</cite>) &#8211; Whether or not to set shared link for file/folder under this one</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="boxmanager.box_wrapper.BoxFolder.items">
+<tt class="descname">items</tt><a class="reference internal" href="_modules/boxmanager/box_wrapper.html#BoxFolder.items"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#boxmanager.box_wrapper.BoxFolder.items" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of BoxFile and BoxFolder items
+that are children of this folder</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="boxmanager.box_wrapper.BoxItem">
+<em class="property">class </em><tt class="descclassname">boxmanager.box_wrapper.</tt><tt class="descname">BoxItem</tt><a class="reference internal" href="_modules/boxmanager/box_wrapper.html#BoxItem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#boxmanager.box_wrapper.BoxItem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrapper for BoxSDK Item</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="authenticate.html"
+                        title="previous chapter">Box Wrapper</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/box_wrapper.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="authenticate.html" title="Box Wrapper"
+             >previous</a> |</li>
+        <li><a href="index.html">Box Manager 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, Matthew Cox.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

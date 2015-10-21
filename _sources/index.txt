@@ -11,6 +11,9 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   authenticate
+   box_wrapper
+
 
 
 Indices and tables

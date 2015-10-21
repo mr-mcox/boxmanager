@@ -6,7 +6,7 @@ import sys
 
 class BoxAuthenticator(object):
 
-    """CLient for connecting to Box"""
+    """Authenticator for connecting to Box"""
 
     def __init__(self, config_file):
         self.import_config(config_file)

@@ -1,7 +1,7 @@
 Shared Link Phase:
   ✔ Enable shared link of file @done (15-10-21 10:53)
   ✔ Enable up OAuth @done (15-10-21 13:10)
-  ☐ Enable shared link doesn't create new link if one is already present 
+  ✔ Enable shared link doesn't create new link if one is already present  @done (15-10-21 13:23)
   ☐ Enable shared link of folder
   ☐ Enable shared link recursive of folder when only files are present
   ☐ Enable shared link recursive of folder when there are two levels

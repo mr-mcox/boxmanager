@@ -78,4 +78,7 @@ class BoxFolder(BoxItem):
         super(BoxFolder, self).enable_shared_link()
         if recursive:
             for item in self.items:
-                item.enable_shared_link()
+                if type(item) is BoxFolder:
+                    item.enable_shared_link(recursive=True)
+                else:
+                    item.enable_shared_link()

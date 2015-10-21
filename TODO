@@ -6,4 +6,4 @@ Shared Link Phase:
   ✔ Enable shared link of folder @done (15-10-21 14:52)
   ✔ Enable shared link recursive of folder when only files are present @done (15-10-21 15:37)
   ✔ Set limit @done (15-10-21 15:38)
-  ☐ Enable shared link recursive of folder when there are two levels
+  ✔ Enable shared link recursive of folder when there are two levels @done (15-10-21 16:10)

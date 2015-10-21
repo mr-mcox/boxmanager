@@ -1,4 +1,4 @@
-Box Wrapper
+Authenticate
 **************
 
 .. automodule:: boxmanager.authenticate

@@ -8,11 +8,21 @@ class BoxAuthenticator(object):
 
     """Authenticator for connecting to Box"""
 
-    def __init__(self, config_file):
-        self.import_config(config_file)
+    def __init__(self, config_file="config.yaml"):
+        self.config_file = config_file
+
+    @property
+    def config(self):
+        if not hasattr(self, '_config'):
+            self.import_config(self.config_file)
+        return self._config
+
+    @config.setter
+    def config(self, value):
+        self._config = value
 
     def import_config(self, config_file):
-        self.config = yaml.load(open(config_file))
+        self._config = yaml.load(open(config_file))
 
     def store_tokens(self, access_token, refresh_token):
         """

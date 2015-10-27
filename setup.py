@@ -1,6 +1,6 @@
 from distutils.core import setup
 setup(name='boxmanager',
-      version='1.0',
+      version='0.1',
       py_modules=['authenticate', 'box_wrapper', 'cli'],
       install_requires=['boxsdk>=1.2.2',
                         'py>=1.4.30',

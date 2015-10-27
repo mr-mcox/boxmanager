@@ -9,7 +9,7 @@
 			],
 			"env":
 			{
-				"PYTHONPATH": "/Users/mcox/Code/Python"
+				"PYTHONPATH": "/Users/mcox/Code/Python/boxmanager"
 			},
 			"name": "Py.Test",
 			"path": "/usr/local/bin/",

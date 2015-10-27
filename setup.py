@@ -1,7 +1,7 @@
-from distutils.core import setup, find_packages
+from distutils.core import setup
 setup(name='boxmanager',
       version='0.1',
-      packages=find_packages(exclude=['docs', 'tests']),
+      py_modules=[''],
       install_requires=['boxsdk>=1.2.2',
                         'py>=1.4.30',
                         'pytest>=2.8.2',

@@ -11,6 +11,7 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   include_readme
    authenticate
    box_wrapper
 

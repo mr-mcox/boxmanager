@@ -1,8 +1,10 @@
 from boxsdk.object.folder import Folder
 from boxsdk.object.file import File
 
+
 def print_progress(num):
     print("Completed {} links".format(num), end='\r')
+
 
 class BoxItem(object):
 
@@ -92,7 +94,7 @@ class BoxFolder(BoxItem):
 
         super(BoxFolder, self).__init__()
 
-        self.item_limit = 100
+        self.item_limit = 200
 
         if item is not None:
             self._box_item = item
@@ -141,3 +143,24 @@ class BoxFolder(BoxItem):
                     print_progress(num)
                     item.enable_shared_link()
         return num
+
+    @property
+    def folder_upload_email(self):
+        if not hasattr(self, '_folder_upload_email'):
+            email_obj = self._box_item.get()['folder_upload_email']
+            if email_obj is not None:
+                self._folder_upload_email = email_obj['email']
+            else:
+                self._folder_upload_email = None
+        return self._folder_upload_email
+
+    @property
+    def has_folder_upload_email(self):
+        return (self.folder_upload_email is not None)
+
+    def get_folder_upload_email(self):
+        self._box_item.update_info({'folder_upload_email': {'access': 'open'}})
+
+    def enable_folder_upload_email(self):
+        if not self.has_folder_upload_email:
+            self.get_folder_upload_email()

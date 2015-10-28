@@ -1,16 +1,22 @@
-Command line interface:
-  ✔ Create argparse module @done (15-10-26 12:12)
-  ✔ Make argparse the default run thing @done (15-10-26 12:19)
-  ✔ Create a command for setting shared links @done (15-10-26 13:02)
-  ☐ Create readme for commands
+Create folder email:
+ ✔ Create folder email for one folder @done (15-10-28 17:04)
+ ☐ Create recursive folder calling
+ ☐ Update documentation
+ ☐ Refactor recursive calling?
+ ☐ Create report of all folder emails
+ ☐ Add to CLI
 
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 Archive:
- ✔ Enable shared link of file @done (15-10-21 10:53) @project(Shared Link Phase)
- ✔ Enable up OAuth @done (15-10-21 13:10) @project(Shared Link Phase)
- ✔ Enable shared link doesn't create new link if one is already present  @done (15-10-21 13:23) @project(Shared Link Phase)
- ✔ Test out with actual file @done (15-10-21 14:37) @project(Shared Link Phase)
- ✔ Enable shared link of folder @done (15-10-21 14:52) @project(Shared Link Phase)
- ✔ Enable shared link recursive of folder when only files are present @done (15-10-21 15:37) @project(Shared Link Phase)
- ✔ Set limit @done (15-10-21 15:38) @project(Shared Link Phase)
+ ✔ Create readme for commands @done (15-10-28 17:01) @project(Command line interface)
+ ✔ Create a command for setting shared links @done (15-10-26 13:02) @project(Command line interface)
+ ✔ Make argparse the default run thing @done (15-10-26 12:19) @project(Command line interface)
+ ✔ Create argparse module @done (15-10-26 12:12) @project(Command line interface)
  ✔ Enable shared link recursive of folder when there are two levels @done (15-10-21 16:10) @project(Shared Link Phase)
+ ✔ Set limit @done (15-10-21 15:38) @project(Shared Link Phase)
+ ✔ Enable shared link recursive of folder when only files are present @done (15-10-21 15:37) @project(Shared Link Phase)
+ ✔ Enable shared link of folder @done (15-10-21 14:52) @project(Shared Link Phase)
+ ✔ Test out with actual file @done (15-10-21 14:37) @project(Shared Link Phase)
+ ✔ Enable shared link doesn't create new link if one is already present  @done (15-10-21 13:23) @project(Shared Link Phase)
+ ✔ Enable up OAuth @done (15-10-21 13:10) @project(Shared Link Phase)
+ ✔ Enable shared link of file @done (15-10-21 10:53) @project(Shared Link Phase)

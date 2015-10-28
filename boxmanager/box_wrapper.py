@@ -1,6 +1,8 @@
 from boxsdk.object.folder import Folder
 from boxsdk.object.file import File
 
+def print_progress(num):
+    print("Completed {} links".format(num), end='\r')
 
 class BoxItem(object):
 
@@ -19,12 +21,20 @@ class BoxItem(object):
         return self._shared_link
 
     @property
+    def id(self):
+        if not hasattr(self, '_id'):
+            self._id = self._box_item.get()['id']
+        return self._id
+
+    @property
     def has_shared_link(self):
         return (self.shared_link is not None)
 
     def enable_shared_link(self):
         if not self.has_shared_link:
             self._shared_link = self.get_shared_link()
+            assert self.has_shared_link, "Box item " + \
+                self.id + " failed to enable shared link"
 
 
 class BoxFile(BoxItem):
@@ -111,7 +121,7 @@ class BoxFolder(BoxItem):
             self._items = items
         return self._items
 
-    def enable_shared_link(self, recursive=False):
+    def enable_shared_link(self, recursive=False, num=0):
         """Enable shared link for the folder
 
         :param recursive:
@@ -123,6 +133,11 @@ class BoxFolder(BoxItem):
         if recursive:
             for item in self.items:
                 if type(item) is BoxFolder:
-                    item.enable_shared_link(recursive=True)
+                    num = num + 1
+                    print_progress(num)
+                    num = item.enable_shared_link(recursive=True,  num=num)
                 else:
+                    num = num + 1
+                    print_progress(num)
                     item.enable_shared_link()
+        return num

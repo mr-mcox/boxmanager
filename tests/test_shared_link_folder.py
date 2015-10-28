@@ -37,8 +37,8 @@ def nested_folder(monkeypatch, mocked_folder):
 
 def test_enable_shared_link_folder(monkeypatch, mocked_folder):
     box_folder = mocked_folder
-    monkeypatch.setattr(BoxFolder, 'has_shared_link', False)
-    with patch.object(BoxFolder, 'get_shared_link') as sl_mock:
+    box_folder._shared_link = None
+    with patch.object(BoxFolder, 'get_shared_link', return_value='link') as sl_mock:
         box_folder.enable_shared_link()
     sl_mock.assert_called_with()
 
@@ -65,4 +65,4 @@ def test_enable_shared_link_nested(monkeypatch,
     box_folder = nested_folder
     box_folder.enable_shared_link(recursive=True)
     for item in box_folder.items:
-        item.enable_shared_link.assert_called_with(recursive=True)
+        item.enable_shared_link.assert_called_with(recursive=True, num=1)

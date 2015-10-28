@@ -13,8 +13,8 @@ def mocked_file(monkeypatch):
 
 def test_enable_shared_link_file(monkeypatch, mocked_file):
     box_file = mocked_file
-    monkeypatch.setattr(BoxFile, 'has_shared_link', False)
-    with patch.object(BoxFile, 'get_shared_link') as sl_mock:
+    box_file._shared_link = None
+    with patch.object(BoxFile, 'get_shared_link', return_value='link') as sl_mock:
         box_file.enable_shared_link()
     sl_mock.assert_called_with()
 

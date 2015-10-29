@@ -25,12 +25,6 @@ class BoxItem(object):
         return self._item_info
 
     @property
-    def shared_link(self):
-        if not hasattr(self, '_shared_link'):
-            self._shared_link = self.item_info['shared_link']
-        return self._shared_link
-
-    @property
     def id(self):
         if not hasattr(self, '_id'):
             self._id = self.item_info['id']
@@ -41,6 +35,12 @@ class BoxItem(object):
         if not hasattr(self, '_name'):
             self._name = self.item_info['name']
         return self._name
+
+    @property
+    def shared_link(self):
+        if not hasattr(self, '_shared_link'):
+            self._shared_link = self.item_info['shared_link']
+        return self._shared_link
 
     @property
     def has_shared_link(self):
@@ -188,23 +188,23 @@ class BoxFolder(BoxItem):
     @property
     def folder_upload_email(self):
         if not hasattr(self, '_folder_upload_email'):
-            self._folder_upload_email = self._retrieve_folder_upload_email()
+            self._folder_upload_email = self._get_folder_upload_email()
         return self._folder_upload_email
 
-    def _retrieve_folder_upload_email(self):
+    @property
+    def has_folder_upload_email(self):
+        return (self.folder_upload_email is not None)
+
+    def _get_folder_upload_email(self):
         email_obj = self.item_info['folder_upload_email']
         if email_obj is not None:
             return email_obj['email']
         else:
             return None
 
-    @property
-    def has_folder_upload_email(self):
-        return (self.folder_upload_email is not None)
-
-    def get_folder_upload_email(self):
+    def _enable_single_folder_upload_email(self):
         self._box_item.update_info({'folder_upload_email': {'access': 'open'}})
-        self._retrieve_folder_upload_email()
+        self._get_folder_upload_email()
         assert self.has_folder_upload_email, "Box item " + \
             self.id + " failed to enable shared link"
 
@@ -219,7 +219,7 @@ class BoxFolder(BoxItem):
             The number of previously run items - used for printing progress
         """
         if not self.has_folder_upload_email:
-            self.get_folder_upload_email()
+            self._enable_single_folder_upload_email()
         if recursive:
             for item in self.items:
                 if type(item) is BoxFolder:

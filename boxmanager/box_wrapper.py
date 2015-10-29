@@ -1,9 +1,11 @@
 from boxsdk.object.folder import Folder
 from boxsdk.object.file import File
+import os
+import csv
 
 
 def print_progress(num):
-    print("Completed {} links".format(num), end='\r')
+    print("Completed {} items".format(num), end='\r')
 
 
 class BoxItem(object):
@@ -27,6 +29,12 @@ class BoxItem(object):
         if not hasattr(self, '_id'):
             self._id = self._box_item.get()['id']
         return self._id
+
+    @property
+    def name(self):
+        if not hasattr(self, '_name'):
+            self._name = self._box_item.get()['name']
+        return self._name
 
     @property
     def has_shared_link(self):
@@ -109,7 +117,7 @@ class BoxFolder(BoxItem):
         """Return a list of BoxFile and BoxFolder items
            that are children of this folder"""
 
-        if not hasattr('self', '_items'):
+        if not hasattr(self, '_items'):
             box_items = self._box_item.get_items(self.item_limit)
             items = list()
             for item in box_items:
@@ -130,6 +138,8 @@ class BoxFolder(BoxItem):
             Whether or not to set shared link for file/folder under this one
         :type recursive:
             `bool`
+        :param int num:
+            The number of previously run items - used for printing progress
         """
         super(BoxFolder, self).enable_shared_link()
         if recursive:
@@ -147,12 +157,15 @@ class BoxFolder(BoxItem):
     @property
     def folder_upload_email(self):
         if not hasattr(self, '_folder_upload_email'):
-            email_obj = self._box_item.get()['folder_upload_email']
-            if email_obj is not None:
-                self._folder_upload_email = email_obj['email']
-            else:
-                self._folder_upload_email = None
+            self._folder_upload_email = self._retrieve_folder_upload_email()
         return self._folder_upload_email
+
+    def _retrieve_folder_upload_email(self):
+        email_obj = self._box_item.get()['folder_upload_email']
+        if email_obj is not None:
+            return email_obj['email']
+        else:
+            return None
 
     @property
     def has_folder_upload_email(self):
@@ -160,7 +173,53 @@ class BoxFolder(BoxItem):
 
     def get_folder_upload_email(self):
         self._box_item.update_info({'folder_upload_email': {'access': 'open'}})
+        self._retrieve_folder_upload_email()
+        assert self.has_folder_upload_email, "Box item " + \
+            self.id + " failed to enable shared link"
 
-    def enable_folder_upload_email(self):
+    def enable_folder_upload_email(self, recursive=False, num=0):
+        """Enable folder upload email for the folder
+
+        :param recursive:
+            Whether or not to set folder upload email for file/folder under this one
+        :type recursive:
+            `bool`
+        :param int num:
+            The number of previously run items - used for printing progress
+        """
         if not self.has_folder_upload_email:
             self.get_folder_upload_email()
+        if recursive:
+            for item in self.items:
+                if type(item) is BoxFolder:
+                    num = num + 1
+                    print_progress(num)
+                    num = item.enable_folder_upload_email(
+                        recursive=True,  num=num)
+        return num
+
+    def folder_upload_email_report(self, rep_dir=os.getcwd()):
+        """Save a CSV formatted report of folder emails
+
+        :param str rep_dir:
+            The directory to place the report in (defaults to current directory)
+        """
+        report_path = str(os.path.join(rep_dir, 'folder_upload_emails.csv'))
+
+        records = self._folder_report_info('')
+
+        with open(report_path, 'w', newline='') as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerow(['path', 'name', 'email'])
+            for row in records:
+                writer.writerow(row)
+
+    def _folder_report_info(self, parent_path):
+        name = self.name
+        path_to_folder = os.path.join(parent_path, name)
+        records = [[path_to_folder, name, self.folder_upload_email]]
+        for item in self.items:
+            if type(item) is BoxFolder:
+                new_records = item._folder_report_info(path_to_folder)
+                records = records + new_records
+        return records

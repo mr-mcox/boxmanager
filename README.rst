@@ -13,8 +13,10 @@ You will need a special config file that has some secret information. Contact Ma
 
 Usage
 ======
-The only command at the moment is to create shared links. Run this command from the folder that has the config file:
+Here are sample commands you can run. Each of these must be run from the folder with the config file.
 
 *python -m boxmanager.cli enable_shared_link -f BOXFOLDERID*
+*python -m boxmanager.cli enable_folder_upload_email -f BOXFOLDERID*
+*python -m boxmanager.cli folder_upload_email_report -f BOXFOLDERID*
 
-Substitute BOXFOLDERID with the integer ID for the root folder you want to create shared links for
+Substitute BOXFOLDERID with the integer ID for the root folder you are running the command for

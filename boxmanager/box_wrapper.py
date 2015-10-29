@@ -158,9 +158,6 @@ class BoxFolder(BoxItem):
                     items.append(BoxFile(item=item))
                 elif type(item) is Folder:
                     items.append(BoxFolder(item=item))
-                else:
-                    assert False, "Item is neither File nor Folder: " + \
-                        str(box_items)
             self._items = items
         return self._items
 

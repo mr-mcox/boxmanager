@@ -25,4 +25,6 @@ Here are sample commands you can run. Each of these must be run from the folder 
 
 *python -m boxmanager.cli folder_upload_email_report -f BOXFOLDERID*
 
+*python -m boxmanager.cli folder_access_stats_report -f BOXFOLDERID*
+
 Substitute BOXFOLDERID with the integer ID for the root folder you are running the command for

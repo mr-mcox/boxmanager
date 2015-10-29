@@ -101,14 +101,50 @@ or an already created Box Folder</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="boxmanager.box_wrapper.BoxFolder.enable_folder_upload_email">
+<tt class="descname">enable_folder_upload_email</tt><big>(</big><em>recursive=False</em>, <em>num=0</em><big>)</big><a class="reference internal" href="_modules/boxmanager/box_wrapper.html#BoxFolder.enable_folder_upload_email"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#boxmanager.box_wrapper.BoxFolder.enable_folder_upload_email" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enable folder upload email for the folder</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>recursive</strong> (<cite>bool</cite>) &#8211; Whether or not to set folder upload email for file/folder under this one</li>
+<li><strong>num</strong> (<em>int</em>) &#8211; The number of previously run items - used for printing progress</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="boxmanager.box_wrapper.BoxFolder.enable_shared_link">
-<tt class="descname">enable_shared_link</tt><big>(</big><em>recursive=False</em><big>)</big><a class="reference internal" href="_modules/boxmanager/box_wrapper.html#BoxFolder.enable_shared_link"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#boxmanager.box_wrapper.BoxFolder.enable_shared_link" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">enable_shared_link</tt><big>(</big><em>recursive=False</em>, <em>num=0</em><big>)</big><a class="reference internal" href="_modules/boxmanager/box_wrapper.html#BoxFolder.enable_shared_link"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#boxmanager.box_wrapper.BoxFolder.enable_shared_link" title="Permalink to this definition">¶</a></dt>
 <dd><p>Enable shared link for the folder</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>recursive</strong> (<cite>bool</cite>) &#8211; Whether or not to set shared link for file/folder under this one</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>recursive</strong> (<cite>bool</cite>) &#8211; Whether or not to set shared link for file/folder under this one</li>
+<li><strong>num</strong> (<em>int</em>) &#8211; The number of previously run items - used for printing progress</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="boxmanager.box_wrapper.BoxFolder.folder_upload_email_report">
+<tt class="descname">folder_upload_email_report</tt><big>(</big><em>rep_dir='/Users/mcox/Code/Python/boxmanager/docs'</em><big>)</big><a class="reference internal" href="_modules/boxmanager/box_wrapper.html#BoxFolder.folder_upload_email_report"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#boxmanager.box_wrapper.BoxFolder.folder_upload_email_report" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save a CSV formatted report of folder emails</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rep_dir</strong> (<em>str</em>) &#8211; The directory to place the report in (defaults to current directory)</td>
 </tr>
 </tbody>
 </table>

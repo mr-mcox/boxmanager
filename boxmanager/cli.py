@@ -34,6 +34,11 @@ def parse_command_line(cli_input=None):
         folder.folder_upload_email_report()
         command_handled = True
 
+    if args.command == 'folder_access_stats_report':
+        folder = BoxFolder(client, args.folder)
+        folder.folder_access_stats_report()
+        command_handled = True
+
     assert command_handled, "Command not recognized " + args.command
 
 if __name__ == '__main__':

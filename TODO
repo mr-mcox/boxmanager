@@ -1,13 +1,18 @@
-Create folder email:
- ✔ Create folder email for one folder @done (15-10-28 17:04)
- ✔ Create recursive folder calling @done (15-10-28 17:09)
- ✔ Update documentation @done (15-10-28 17:11)
- ✔ Refactor recursive calling? @done (15-10-28 17:11)
- ✔ Create report of all folder emails @done (15-10-28 18:38)
- ✔ Add to CLI @done (15-10-28 19:01)
+Create access stats reports:
+ ✔ Add CLI @done (15-10-29 10:47)
+ ✔ Add progress indicator @done (15-10-29 10:50)
+ ✔ Refactor gets @done (15-10-29 10:53)
+ ☐ Test with local script
+ ☐ Publish
 
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 Archive:
+ ✔ Create folder email for one folder @done (15-10-28 17:04) @project(Create folder email)
+ ✔ Create recursive folder calling @done (15-10-28 17:09) @project(Create folder email)
+ ✔ Update documentation @done (15-10-28 17:11) @project(Create folder email)
+ ✔ Refactor recursive calling? @done (15-10-28 17:11) @project(Create folder email)
+ ✔ Create report of all folder emails @done (15-10-28 18:38) @project(Create folder email)
+ ✔ Add to CLI @done (15-10-28 19:01) @project(Create folder email)
  ✔ Create readme for commands @done (15-10-28 17:01) @project(Command line interface)
  ✔ Create a command for setting shared links @done (15-10-26 13:02) @project(Command line interface)
  ✔ Make argparse the default run thing @done (15-10-26 12:19) @project(Command line interface)

@@ -19,21 +19,27 @@ class BoxItem(object):
         return self._box_item.get_shared_link()
 
     @property
+    def item_info(self):
+        if not hasattr(self, '_item_info'):
+            self._item_info = self._box_item.get()
+        return self._item_info
+
+    @property
     def shared_link(self):
         if not hasattr(self, '_shared_link'):
-            self._shared_link = self._box_item.get()['shared_link']
+            self._shared_link = self.item_info['shared_link']
         return self._shared_link
 
     @property
     def id(self):
         if not hasattr(self, '_id'):
-            self._id = self._box_item.get()['id']
+            self._id = self.item_info['id']
         return self._id
 
     @property
     def name(self):
         if not hasattr(self, '_name'):
-            self._name = self._box_item.get()['name']
+            self._name = self.item_info['name']
         return self._name
 
     @property
@@ -50,7 +56,7 @@ class BoxItem(object):
     def download_count(self):
         if not hasattr(self, '_download_count'):
             if self.has_shared_link:
-                self._download_count = self._box_item.get()['shared_link'][
+                self._download_count = self.item_info['shared_link'][
                     'download_count']
             else:
                 self._download_count = None
@@ -60,13 +66,13 @@ class BoxItem(object):
     def preview_count(self):
         if not hasattr(self, '_preview_count'):
             if self.has_shared_link:
-                self._preview_count = self._box_item.get()['shared_link'][
+                self._preview_count = self.item_info['shared_link'][
                     'preview_count']
             else:
                 self._preview_count = None
         return self._preview_count
 
-    def _folder_access_stats_report_info(self, parent_path):
+    def _folder_access_stats_report_info(self, parent_path, num=0):
         name = self.name
         path_to_item = os.path.join(parent_path, name)
         return [[path_to_item, name, self.preview_count, self.download_count]]
@@ -186,7 +192,7 @@ class BoxFolder(BoxItem):
         return self._folder_upload_email
 
     def _retrieve_folder_upload_email(self):
-        email_obj = self._box_item.get()['folder_upload_email']
+        email_obj = self.item_info['folder_upload_email']
         if email_obj is not None:
             return email_obj['email']
         else:
@@ -239,13 +245,15 @@ class BoxFolder(BoxItem):
             for row in records:
                 writer.writerow(row)
 
-    def _folder_report_info(self, parent_path):
+    def _folder_report_info(self, parent_path, num=0):
         name = self.name
         path_to_folder = os.path.join(parent_path, name)
         records = [[path_to_folder, name, self.folder_upload_email]]
         for item in self.items:
             if type(item) is BoxFolder:
-                new_records = item._folder_report_info(path_to_folder)
+                num = num + 1
+                print_progress(num)
+                new_records = item._folder_report_info(path_to_folder, num)
                 records = records + new_records
         return records
 
@@ -266,13 +274,17 @@ class BoxFolder(BoxItem):
             for row in records:
                 writer.writerow(row)
 
-    def _folder_access_stats_report_info(self, parent_path):
+    def _folder_access_stats_report_info(self, parent_path, num=0):
         name = self.name
         path_to_item = os.path.join(parent_path, name)
         records = super(
-            BoxFolder, self)._folder_access_stats_report_info(parent_path)
+            BoxFolder, self)._folder_access_stats_report_info(parent_path,
+                                                              num=0)
 
         for item in self.items:
-            new_records = item._folder_access_stats_report_info(path_to_item)
+            num = num + 1
+            print_progress(num)
+            new_records = item._folder_access_stats_report_info(
+                path_to_item, num=num)
             records = records + new_records
         return records

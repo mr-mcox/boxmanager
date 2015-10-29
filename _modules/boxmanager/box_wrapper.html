@@ -68,22 +68,28 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_box_item</span><span class="o">.</span><span class="n">get_shared_link</span><span class="p">()</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">shared_link</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_shared_link&#39;</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_shared_link</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_box_item</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="s">&#39;shared_link&#39;</span><span class="p">]</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shared_link</span>
+    <span class="k">def</span> <span class="nf">item_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_item_info&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_item_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_box_item</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_item_info</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_id&#39;</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_box_item</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="s">&#39;id&#39;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">item_info</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_id</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_name&#39;</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_box_item</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">item_info</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">shared_link</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_shared_link&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_shared_link</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">item_info</span><span class="p">[</span><span class="s">&#39;shared_link&#39;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shared_link</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">has_shared_link</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -94,6 +100,31 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_shared_link</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_shared_link</span><span class="p">()</span>
             <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_shared_link</span><span class="p">,</span> <span class="s">&quot;Box item &quot;</span> <span class="o">+</span> \
                 <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">+</span> <span class="s">&quot; failed to enable shared link&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">download_count</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_download_count&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_shared_link</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_download_count</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">item_info</span><span class="p">[</span><span class="s">&#39;shared_link&#39;</span><span class="p">][</span>
+                    <span class="s">&#39;download_count&#39;</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_download_count</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_download_count</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">preview_count</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_preview_count&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_shared_link</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_preview_count</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">item_info</span><span class="p">[</span><span class="s">&#39;shared_link&#39;</span><span class="p">][</span>
+                    <span class="s">&#39;preview_count&#39;</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_preview_count</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_preview_count</span>
+
+    <span class="k">def</span> <span class="nf">_folder_access_stats_report_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent_path</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="n">path_to_item</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parent_path</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[[</span><span class="n">path_to_item</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">preview_count</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">download_count</span><span class="p">]]</span>
 
 </div>
 <div class="viewcode-block" id="BoxFile"><a class="viewcode-back" href="../../box_wrapper.html#boxmanager.box_wrapper.BoxFile">[docs]</a><span class="k">class</span> <span class="nc">BoxFile</span><span class="p">(</span><span class="n">BoxItem</span><span class="p">):</span>
@@ -206,23 +237,23 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">folder_upload_email</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_folder_upload_email&#39;</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_folder_upload_email</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_retrieve_folder_upload_email</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_folder_upload_email</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_folder_upload_email</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_folder_upload_email</span>
-
-    <span class="k">def</span> <span class="nf">_retrieve_folder_upload_email</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">email_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_box_item</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="s">&#39;folder_upload_email&#39;</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">email_obj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">email_obj</span><span class="p">[</span><span class="s">&#39;email&#39;</span><span class="p">]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">None</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">has_folder_upload_email</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">folder_upload_email</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">get_folder_upload_email</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_get_folder_upload_email</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">email_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">item_info</span><span class="p">[</span><span class="s">&#39;folder_upload_email&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">email_obj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">email_obj</span><span class="p">[</span><span class="s">&#39;email&#39;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">None</span>
+
+    <span class="k">def</span> <span class="nf">_enable_single_folder_upload_email</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_box_item</span><span class="o">.</span><span class="n">update_info</span><span class="p">({</span><span class="s">&#39;folder_upload_email&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;access&#39;</span><span class="p">:</span> <span class="s">&#39;open&#39;</span><span class="p">}})</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_retrieve_folder_upload_email</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_get_folder_upload_email</span><span class="p">()</span>
         <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_folder_upload_email</span><span class="p">,</span> <span class="s">&quot;Box item &quot;</span> <span class="o">+</span> \
             <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">+</span> <span class="s">&quot; failed to enable shared link&quot;</span>
 
@@ -237,7 +268,7 @@
 <span class="sd">            The number of previously run items - used for printing progress</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_folder_upload_email</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">get_folder_upload_email</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_enable_single_folder_upload_email</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">recursive</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">:</span>
                 <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="ow">is</span> <span class="n">BoxFolder</span><span class="p">:</span>
@@ -263,14 +294,48 @@
             <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">records</span><span class="p">:</span>
                 <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
 </div>
-    <span class="k">def</span> <span class="nf">_folder_report_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent_path</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_folder_report_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent_path</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
         <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
         <span class="n">path_to_folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parent_path</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
         <span class="n">records</span> <span class="o">=</span> <span class="p">[[</span><span class="n">path_to_folder</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">folder_upload_email</span><span class="p">]]</span>
         <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="ow">is</span> <span class="n">BoxFolder</span><span class="p">:</span>
-                <span class="n">new_records</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">_folder_report_info</span><span class="p">(</span><span class="n">path_to_folder</span><span class="p">)</span>
+                <span class="n">num</span> <span class="o">=</span> <span class="n">num</span> <span class="o">+</span> <span class="mi">1</span>
+                <span class="n">print_progress</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+                <span class="n">new_records</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">_folder_report_info</span><span class="p">(</span><span class="n">path_to_folder</span><span class="p">,</span> <span class="n">num</span><span class="p">)</span>
                 <span class="n">records</span> <span class="o">=</span> <span class="n">records</span> <span class="o">+</span> <span class="n">new_records</span>
+        <span class="k">return</span> <span class="n">records</span>
+
+<div class="viewcode-block" id="BoxFolder.folder_access_stats_report"><a class="viewcode-back" href="../../box_wrapper.html#boxmanager.box_wrapper.BoxFolder.folder_access_stats_report">[docs]</a>    <span class="k">def</span> <span class="nf">folder_access_stats_report</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rep_dir</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()):</span>
+        <span class="sd">&quot;&quot;&quot;Save a CSV formatted report of access stats</span>
+
+<span class="sd">        :param str rep_dir:</span>
+<span class="sd">            The directory to place the report in (defaults to current directory)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">report_path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rep_dir</span><span class="p">,</span> <span class="s">&#39;access_stats.csv&#39;</span><span class="p">))</span>
+
+        <span class="n">records</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_folder_access_stats_report_info</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">report_path</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">csvfile</span><span class="p">:</span>
+            <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="n">csvfile</span><span class="p">)</span>
+            <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span>
+                <span class="p">[</span><span class="s">&#39;path&#39;</span><span class="p">,</span> <span class="s">&#39;name&#39;</span><span class="p">,</span> <span class="s">&#39;preview_count&#39;</span><span class="p">,</span> <span class="s">&#39;download_count&#39;</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">records</span><span class="p">:</span>
+                <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+</div>
+    <span class="k">def</span> <span class="nf">_folder_access_stats_report_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent_path</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="n">path_to_item</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parent_path</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+        <span class="n">records</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span>
+            <span class="n">BoxFolder</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_folder_access_stats_report_info</span><span class="p">(</span><span class="n">parent_path</span><span class="p">,</span>
+                                                              <span class="n">num</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">:</span>
+            <span class="n">num</span> <span class="o">=</span> <span class="n">num</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">print_progress</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+            <span class="n">new_records</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">_folder_access_stats_report_info</span><span class="p">(</span>
+                <span class="n">path_to_item</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="n">num</span><span class="p">)</span>
+            <span class="n">records</span> <span class="o">=</span> <span class="n">records</span> <span class="o">+</span> <span class="n">new_records</span>
         <span class="k">return</span> <span class="n">records</span></div>
 </pre></div>
 

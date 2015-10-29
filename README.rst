@@ -5,7 +5,7 @@ Installation
 =============
 Run the following command from the Annaconda Command Prompt
 
-*pip3 install git+https://github.com/mr-mcox/boxmanager.git@v0.1#egg=boxmanager*
+*pip3 install git+https://github.com/mr-mcox/boxmanager.git@v0.2#egg=boxmanager*
 
 Initial setup
 =============

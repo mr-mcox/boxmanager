@@ -239,7 +239,7 @@ class BoxFolder(BoxItem):
         """
         report_path = str(os.path.join(rep_dir, 'folder_upload_emails.csv'))
 
-        records = self._folder_report_info('')
+        (num, records) = self._folder_report_info('')
 
         with open(report_path, 'w', newline='') as csvfile:
             writer = csv.writer(csvfile)
@@ -251,13 +251,15 @@ class BoxFolder(BoxItem):
         name = self.name
         path_to_folder = os.path.join(parent_path, name)
         records = [[path_to_folder, name, self.folder_upload_email]]
+
+        num = num + 1
+        print_progress(num)
+
         for item in self.items:
             if type(item) is BoxFolder:
-                num = num + 1
-                print_progress(num)
-                new_records = item._folder_report_info(path_to_folder, num)
+                (num, new_records) = item._folder_report_info(path_to_folder, num)
                 records = records + new_records
-        return records
+        return (num, records)
 
     def folder_access_stats_report(self, rep_dir=os.getcwd()):
         """Save a CSV formatted report of access stats

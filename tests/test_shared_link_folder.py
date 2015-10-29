@@ -1,7 +1,8 @@
 from unittest.mock import patch, MagicMock
-from boxmanager.box_wrapper import BoxFolder
-from boxmanager.box_wrapper import BoxFile
+from boxmanager.box_wrapper import BoxFolder, BoxFile, BoxItem
 import pytest
+import csv
+import filecmp
 
 
 @pytest.fixture
@@ -33,6 +34,29 @@ def nested_folder(monkeypatch, mocked_folder):
     monkeypatch.setattr(BoxFolder, 'items', [fold1])
     bf = mocked_folder
     return bf
+
+@pytest.fixture
+def nested_folder_with_access_stats(monkeypatch):
+    monkeypatch.setattr(BoxFolder, 'set_box_item', MagicMock())
+    monkeypatch.setattr(BoxFile, 'set_box_item', MagicMock())
+    monkeypatch.setattr(BoxItem, 'has_shared_link', True)
+
+    fold1 = BoxFolder()
+    fold1._download_count = 1
+    fold1._preview_count = 2
+    fold1._name = 'fold1'
+    fold2 = BoxFolder()
+    fold2._download_count = 2
+    fold2._preview_count = 3
+    fold2._name = 'fold2'
+    file1 = BoxFile()
+    file1._download_count = 5
+    file1._preview_count = 6
+    file1._name = 'file1'
+
+    fold1._items = [fold2]
+    fold2._items = [file1]
+    return fold1
 
 
 def test_enable_shared_link_folder(monkeypatch, mocked_folder):
@@ -66,3 +90,19 @@ def test_enable_shared_link_nested(monkeypatch,
     box_folder.enable_shared_link(recursive=True)
     for item in box_folder.items:
         item.enable_shared_link.assert_called_with(recursive=True, num=1)
+
+def test_create_report_of_access_stats(tmpdir, nested_folder_with_access_stats):
+    with open(str(tmpdir.join('expected.csv')), 'w', newline='') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(['path', 'name', 'preview_count','download_count'])
+        writer.writerow(['fold1', 'fold1', 2,1])
+        writer.writerow(['fold1/fold2', 'fold2', 3,2])
+        writer.writerow(['fold1/fold2/file1', 'file1', 6, 5])
+    box_folder = nested_folder_with_access_stats
+
+    box_folder.folder_access_stats_report(rep_dir=str(tmpdir))
+
+    expected_csv = str(tmpdir.join('expected.csv'))
+    actual_csv = str(tmpdir.join('access_stats.csv'))
+
+    assert filecmp.cmp(expected_csv, actual_csv)

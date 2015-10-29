@@ -7,6 +7,10 @@ Run the following command from the Annaconda Command Prompt
 
 *pip3 install git+https://github.com/mr-mcox/boxmanager.git@v0.2#egg=boxmanager*
 
+If you've already installed it, then you'll need to run a modified version to update:
+
+*pip3 install --update git+https://github.com/mr-mcox/boxmanager.git@v0.2#egg=boxmanager*
+
 Initial setup
 =============
 You will need a special config file that has some secret information. Contact Matthew to get this.

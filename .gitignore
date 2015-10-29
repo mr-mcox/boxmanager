@@ -6,3 +6,4 @@ include/*
 lib/*
 .DS_Store
 venv/*
+scripts/*

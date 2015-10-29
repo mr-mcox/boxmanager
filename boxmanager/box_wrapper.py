@@ -46,6 +46,31 @@ class BoxItem(object):
             assert self.has_shared_link, "Box item " + \
                 self.id + " failed to enable shared link"
 
+    @property
+    def download_count(self):
+        if not hasattr(self, '_download_count'):
+            if self.has_shared_link:
+                self._download_count = self._box_item.get()['shared_link'][
+                    'download_count']
+            else:
+                self._download_count = None
+        return self._download_count
+
+    @property
+    def preview_count(self):
+        if not hasattr(self, '_preview_count'):
+            if self.has_shared_link:
+                self._preview_count = self._box_item.get()['shared_link'][
+                    'preview_count']
+            else:
+                self._preview_count = None
+        return self._preview_count
+
+    def _folder_access_stats_report_info(self, parent_path):
+        name = self.name
+        path_to_item = os.path.join(parent_path, name)
+        return [[path_to_item, name, self.preview_count, self.download_count]]
+
 
 class BoxFile(BoxItem):
 
@@ -222,4 +247,32 @@ class BoxFolder(BoxItem):
             if type(item) is BoxFolder:
                 new_records = item._folder_report_info(path_to_folder)
                 records = records + new_records
+        return records
+
+    def folder_access_stats_report(self, rep_dir=os.getcwd()):
+        """Save a CSV formatted report of access stats
+
+        :param str rep_dir:
+            The directory to place the report in (defaults to current directory)
+        """
+        report_path = str(os.path.join(rep_dir, 'access_stats.csv'))
+
+        records = self._folder_access_stats_report_info('')
+
+        with open(report_path, 'w', newline='') as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerow(
+                ['path', 'name', 'preview_count', 'download_count'])
+            for row in records:
+                writer.writerow(row)
+
+    def _folder_access_stats_report_info(self, parent_path):
+        name = self.name
+        path_to_item = os.path.join(parent_path, name)
+        records = super(
+            BoxFolder, self)._folder_access_stats_report_info(parent_path)
+
+        for item in self.items:
+            new_records = item._folder_access_stats_report_info(path_to_item)
+            records = records + new_records
         return records

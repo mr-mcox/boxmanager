@@ -75,7 +75,9 @@ class BoxItem(object):
     def _folder_access_stats_report_info(self, parent_path, num=0):
         name = self.name
         path_to_item = os.path.join(parent_path, name)
-        return [[path_to_item, name, self.preview_count, self.download_count]]
+        num = num + 1
+        print_progress(num)
+        return (num, [[path_to_item, name, self.preview_count, self.download_count]])
 
 
 class BoxFile(BoxItem):
@@ -265,7 +267,7 @@ class BoxFolder(BoxItem):
         """
         report_path = str(os.path.join(rep_dir, 'access_stats.csv'))
 
-        records = self._folder_access_stats_report_info('')
+        (num, records) = self._folder_access_stats_report_info('')
 
         with open(report_path, 'w', newline='') as csvfile:
             writer = csv.writer(csvfile)
@@ -277,14 +279,11 @@ class BoxFolder(BoxItem):
     def _folder_access_stats_report_info(self, parent_path, num=0):
         name = self.name
         path_to_item = os.path.join(parent_path, name)
-        records = super(
+        (num, records) = super(
             BoxFolder, self)._folder_access_stats_report_info(parent_path,
-                                                              num=0)
-
+                                                              num=num)
         for item in self.items:
-            num = num + 1
-            print_progress(num)
-            new_records = item._folder_access_stats_report_info(
+            (num, new_records) = item._folder_access_stats_report_info(
                 path_to_item, num=num)
             records = records + new_records
-        return records
+        return (num, records)

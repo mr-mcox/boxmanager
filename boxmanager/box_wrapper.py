@@ -2,7 +2,7 @@ from boxsdk.object.folder import Folder
 from boxsdk.object.file import File
 import os
 import csv
-
+from datetime import datetime
 
 def print_progress(num):
     print("Completed {} items".format(num), end='\r')
@@ -78,6 +78,9 @@ class BoxItem(object):
         num = num + 1
         print_progress(num)
         return (num, [[path_to_item, name, self.preview_count, self.download_count]])
+
+    def nowstamp(self):
+        return datetime.utcnow().strftime('%Y%m%d%H%M')
 
 
 class BoxFile(BoxItem):
@@ -264,7 +267,8 @@ class BoxFolder(BoxItem):
         :param str rep_dir:
             The directory to place the report in (defaults to current directory)
         """
-        report_path = str(os.path.join(rep_dir, 'access_stats.csv'))
+        
+        report_path = str(os.path.join(rep_dir, self.nowstamp() + '-access_stats.csv'))
 
         (num, records) = self._folder_access_stats_report_info('')
 

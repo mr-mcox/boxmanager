@@ -3,7 +3,7 @@ from boxmanager.box_wrapper import BoxFolder, BoxFile, BoxItem
 import pytest
 import csv
 import filecmp
-
+from datetime import datetime
 
 @pytest.fixture
 def mocked_folder(monkeypatch):
@@ -34,6 +34,7 @@ def nested_folder(monkeypatch, mocked_folder):
     monkeypatch.setattr(BoxFolder, 'items', [fold1])
     bf = mocked_folder
     return bf
+
 
 @pytest.fixture
 def nested_folder_with_access_stats(monkeypatch):
@@ -91,18 +92,26 @@ def test_enable_shared_link_nested(monkeypatch,
     for item in box_folder.items:
         item.enable_shared_link.assert_called_with(recursive=True, num=1)
 
-def test_create_report_of_access_stats(tmpdir, nested_folder_with_access_stats):
+
+def test_create_report_of_access_stats(monkeypatch,
+                                       tmpdir,
+                                       nested_folder_with_access_stats):
+    def nowstamp(self):
+        return datetime(2015, 10, 30, 20, 20, 38).strftime('%Y%m%d%H%M')
+
+    monkeypatch.setattr(BoxItem, 'nowstamp', nowstamp)
     with open(str(tmpdir.join('expected.csv')), 'w', newline='') as csvfile:
         writer = csv.writer(csvfile)
-        writer.writerow(['path', 'name', 'preview_count','download_count'])
-        writer.writerow(['fold1', 'fold1', 2,1])
-        writer.writerow(['fold1/fold2', 'fold2', 3,2])
+        writer.writerow(['path', 'name', 'preview_count', 'download_count'])
+        writer.writerow(['fold1', 'fold1', 2, 1])
+        writer.writerow(['fold1/fold2', 'fold2', 3, 2])
         writer.writerow(['fold1/fold2/file1', 'file1', 6, 5])
     box_folder = nested_folder_with_access_stats
 
     box_folder.folder_access_stats_report(rep_dir=str(tmpdir))
 
     expected_csv = str(tmpdir.join('expected.csv'))
-    actual_csv = str(tmpdir.join('access_stats.csv'))
+    actual_csv = str(
+        tmpdir.join(nowstamp(None) + '-access_stats.csv'))
 
     assert filecmp.cmp(expected_csv, actual_csv)

@@ -29,9 +29,9 @@ def parse_command_line(cli_input=None):
         folder.enable_folder_upload_email(recursive=True)
         command_handled = True
 
-    if args.command == 'folder_upload_email_report':
+    if args.command == 'folder_upload_email_address_report':
         folder = BoxFolder(client, args.folder)
-        folder.folder_upload_email_report()
+        folder.folder_upload_email_address_report()
         command_handled = True
 
     if args.command == 'folder_access_stats_report':

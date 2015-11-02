@@ -1,12 +1,14 @@
-Create access stats reports:
- ✔ Add CLI @done (15-10-29 10:47)
- ✔ Add progress indicator @done (15-10-29 10:50)
- ✔ Refactor gets @done (15-10-29 10:53)
- ☐ Test with local script
- ☐ Publish
+Kitchen sink report:
+ ☐ Create property factory for items
+ ☐ Create kitchen sink report
 
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 Archive:
+ ✔ Add CLI @done (15-10-29 10:47) @project(Create access stats reports)
+ ✔ Add progress indicator @done (15-10-29 10:50) @project(Create access stats reports)
+ ✔ Refactor gets @done (15-10-29 10:53) @project(Create access stats reports)
+ ✔ Test with local script @done (15-11-02 11:30) @project(Create access stats reports)
+ ✔ Publish @done (15-11-02 11:30) @project(Create access stats reports)
  ✔ Create folder email for one folder @done (15-10-28 17:04) @project(Create folder email)
  ✔ Create recursive folder calling @done (15-10-28 17:09) @project(Create folder email)
  ✔ Update documentation @done (15-10-28 17:11) @project(Create folder email)

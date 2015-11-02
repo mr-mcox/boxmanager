@@ -3,6 +3,8 @@ from boxsdk.object.file import File
 import os
 import csv
 from datetime import datetime
+import pdb
+
 
 def print_progress(num):
     print("Completed {} items".format(num), end='\r')
@@ -12,7 +14,7 @@ class BoxItem(object):
 
     """Wrapper for BoxSDK Item"""
 
-    def __init__(self):
+    def __init__(self, response_object=None):
         pass
 
     def get_shared_link(self):
@@ -23,18 +25,6 @@ class BoxItem(object):
         if not hasattr(self, '_item_info'):
             self._item_info = self._box_item.get()
         return self._item_info
-
-    @property
-    def id(self):
-        if not hasattr(self, '_id'):
-            self._id = self.item_info['id']
-        return self._id
-
-    @property
-    def name(self):
-        if not hasattr(self, '_name'):
-            self._name = self.item_info['name']
-        return self._name
 
     @property
     def shared_link(self):
@@ -82,6 +72,39 @@ class BoxItem(object):
     def nowstamp(self):
         return datetime.utcnow().strftime('%Y%m%d%H%M')
 
+    def setup_fields(self):
+        resp_object = self._box_item._response_object
+        box_item = self._box_item
+        # print('setup fields called: ' + str(resp_object.keys()))
+        if len(resp_object.keys()) == 0:
+            box_item = self._box_item.get(fields=self.non_dict_fields)
+            resp_object = box_item._response_object
+            # print("Got some more stuff!")
+            # print(str(resp_object.keys()))
+        for key in resp_object.keys():
+            if type(box_item[key]) is not dict:
+                # print('Set attribute for ' + key)
+                setattr(self, key, box_item[key])
+        # pdb.set_trace()
+
+    non_dict_fields = ['purged_at',
+                       'sequence_id',
+                       'created_at',
+                       'content_created_at',
+                       'trashed_at',
+                       'name',
+                       'modified_at',
+                       'description',
+                       'type',
+                       'id',
+                       'folder_upload_email',
+                       'etag',
+                       'size',
+                       'item_status',
+                       'content_modified_at']
+    all_useful_fields = non_dict_fields + \
+        ['shared_link', 'folder_upload_email']
+
 
 class BoxFile(BoxItem):
 
@@ -107,11 +130,13 @@ class BoxFile(BoxItem):
         super(BoxFile, self).__init__()
         if item is not None:
             self._box_item = item
+            self.setup_fields()
         else:
             self.set_box_item(client, file_id)
 
     def set_box_item(self, client, file_id):
         self._box_item = client.file(file_id=file_id)
+        self.setup_fields()
 
 
 class BoxFolder(BoxItem):
@@ -142,11 +167,13 @@ class BoxFolder(BoxItem):
 
         if item is not None:
             self._box_item = item
+            self.setup_fields()
         else:
             self.set_box_item(client, folder_id)
 
     def set_box_item(self, client, folder_id):
         self._box_item = client.folder(folder_id=folder_id)
+        self.setup_fields()
 
     @property
     def items(self):
@@ -154,7 +181,8 @@ class BoxFolder(BoxItem):
            that are children of this folder"""
 
         if not hasattr(self, '_items'):
-            box_items = self._box_item.get_items(self.item_limit)
+            box_items = self._box_item.get_items(
+                self.item_limit, fields=self.non_dict_fields)
             items = list()
             for item in box_items:
                 if type(item) is File:
@@ -188,14 +216,14 @@ class BoxFolder(BoxItem):
         return num
 
     @property
-    def folder_upload_email(self):
-        if not hasattr(self, '_folder_upload_email'):
-            self._folder_upload_email = self._get_folder_upload_email()
-        return self._folder_upload_email
+    def folder_upload_email_address(self):
+        if not hasattr(self, '_folder_upload_email_address'):
+            self._folder_upload_email_address = self._get_folder_upload_email()
+        return self._folder_upload_email_address
 
     @property
-    def has_folder_upload_email(self):
-        return (self.folder_upload_email is not None)
+    def has_folder_upload_email_address(self):
+        return (self.folder_upload_email_address is not None)
 
     def _get_folder_upload_email(self):
         email_obj = self.item_info['folder_upload_email']
@@ -207,7 +235,7 @@ class BoxFolder(BoxItem):
     def _enable_single_folder_upload_email(self):
         self._box_item.update_info({'folder_upload_email': {'access': 'open'}})
         self._get_folder_upload_email()
-        assert self.has_folder_upload_email, "Box item " + \
+        assert self.has_folder_upload_email_address, "Box item " + \
             self.id + " failed to enable shared link"
 
     def enable_folder_upload_email(self, recursive=False, num=0):
@@ -220,7 +248,7 @@ class BoxFolder(BoxItem):
         :param int num:
             The number of previously run items - used for printing progress
         """
-        if not self.has_folder_upload_email:
+        if not self.has_folder_upload_email_address:
             self._enable_single_folder_upload_email()
         if recursive:
             for item in self.items:
@@ -231,7 +259,7 @@ class BoxFolder(BoxItem):
                         recursive=True,  num=num)
         return num
 
-    def folder_upload_email_report(self, rep_dir=os.getcwd()):
+    def folder_upload_email_address_report(self, rep_dir=os.getcwd()):
         """Save a CSV formatted report of folder emails
 
         :param str rep_dir:
@@ -250,14 +278,15 @@ class BoxFolder(BoxItem):
     def _folder_report_info(self, parent_path, num=0):
         name = self.name
         path_to_folder = os.path.join(parent_path, name)
-        records = [[path_to_folder, name, self.folder_upload_email]]
+        records = [[path_to_folder, name, self.folder_upload_email_address]]
 
         num = num + 1
         print_progress(num)
 
         for item in self.items:
             if type(item) is BoxFolder:
-                (num, new_records) = item._folder_report_info(path_to_folder, num)
+                (num, new_records) = item._folder_report_info(
+                    path_to_folder, num)
                 records = records + new_records
         return (num, records)
 
@@ -267,8 +296,9 @@ class BoxFolder(BoxItem):
         :param str rep_dir:
             The directory to place the report in (defaults to current directory)
         """
-        
-        report_path = str(os.path.join(rep_dir, self.nowstamp() + '-access_stats.csv'))
+
+        report_path = str(
+            os.path.join(rep_dir, self.nowstamp() + '-access_stats.csv'))
 
         (num, records) = self._folder_access_stats_report_info('')
 
@@ -280,6 +310,7 @@ class BoxFolder(BoxItem):
                 writer.writerow(row)
 
     def _folder_access_stats_report_info(self, parent_path, num=0):
+        # pdb.set_trace()
         name = self.name
         path_to_item = os.path.join(parent_path, name)
         (num, records) = super(

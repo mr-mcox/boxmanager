@@ -29,11 +29,11 @@ def nested_folder_with_emails(monkeypatch):
     monkeypatch.setattr(BoxFolder, 'set_box_item', MagicMock())
 
     fold1 = BoxFolder()
-    fold1._folder_upload_email = 'email1'
-    fold1._name = 'fold1'
+    fold1._folder_upload_email_address = 'email1'
+    setattr(fold1, 'name', 'fold1')
     fold2 = BoxFolder()
-    fold2._folder_upload_email = 'email2'
-    fold2._name = 'fold2'
+    fold2._folder_upload_email_address = 'email2'
+    setattr(fold2, 'name', 'fold2')
 
     fold1._items = [fold2]
     fold2._items = list()
@@ -42,7 +42,7 @@ def nested_folder_with_emails(monkeypatch):
 
 def test_enable_folder_upload_email_folder(monkeypatch, mocked_folder):
     box_folder = mocked_folder
-    box_folder._folder_upload_email = None
+    box_folder._folder_upload_email_address = None
     with patch.object(BoxFolder, '_enable_single_folder_upload_email', return_value='link') as sl_mock:
         box_folder.enable_folder_upload_email()
     sl_mock.assert_called_with()
@@ -51,7 +51,7 @@ def test_enable_folder_upload_email_folder(monkeypatch, mocked_folder):
 def test_enable_folder_upload_email_no_call_when_present(monkeypatch, mocked_folder):
     # We don't want the shared link reset accidentally
     box_folder = mocked_folder
-    monkeypatch.setattr(BoxFolder, 'has_folder_upload_email', True)
+    monkeypatch.setattr(BoxFolder, 'has_folder_upload_email_address', True)
     with patch.object(BoxFolder, '_enable_single_folder_upload_email') as sl_mock:
         box_folder.enable_folder_upload_email()
     sl_mock.assert_not_called()
@@ -74,7 +74,7 @@ def test_create_report_of_emails(tmpdir, nested_folder_with_emails):
     box_folder = nested_folder_with_emails
 
     print(str(tmpdir))
-    box_folder.folder_upload_email_report(rep_dir=str(tmpdir))
+    box_folder.folder_upload_email_address_report(rep_dir=str(tmpdir))
 
     expected_csv = str(tmpdir.join('expected.csv'))
     actual_csv = str(tmpdir.join('folder_upload_emails.csv'))

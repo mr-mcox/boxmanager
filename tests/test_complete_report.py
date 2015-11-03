@@ -18,11 +18,11 @@ def nested_folder_with_various_stats(monkeypatch):
     fold1._preview_count = 2
     fold1.description = 'A folder with stuff in it'
     setattr(fold1, 'name', 'fold1')
-    fold2 = BoxFolder()
+    fold2 = BoxFolder(parent=fold1)
     fold2._download_count = 2
     fold2._preview_count = 3
     setattr(fold2, 'name', 'fold2')
-    file1 = BoxFile()
+    file1 = BoxFile(parent=fold2)
     file1._download_count = 5
     file1._preview_count = 6
     file1._name = 'file1'

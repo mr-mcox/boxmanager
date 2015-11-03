@@ -65,7 +65,7 @@ class BoxItem(object):
     def path(self):
         if not hasattr(self, '_path'):
             if self.parent == None:
-                self._path = os.path.join('/', self.name)
+                self._path = self.name
             else:
                 self._path = os.path.join(self.parent.path, self.name)
         return self._path
@@ -122,7 +122,7 @@ class BoxItem(object):
                        'item_status',
                        'content_modified_at']
     all_useful_fields = non_dict_fields + \
-        ['path','shared_link', 'folder_upload_email',
+        ['path', 'shared_link', 'folder_upload_email',
             'download_count', 'preview_count']
 
 
@@ -287,28 +287,16 @@ class BoxFolder(BoxItem):
         """
         report_path = str(os.path.join(rep_dir, 'folder_upload_emails.csv'))
 
-        (num, records) = self._folder_report_info('')
+        headers = ['path', 'name', 'folder_upload_email_address']
+        (num, records) = self._item_attribute_records(headers)
 
         with open(report_path, 'w', newline='') as csvfile:
             writer = csv.writer(csvfile)
-            writer.writerow(['path', 'name', 'email'])
+            writer.writerow(headers)
+            print(headers)
             for row in records:
+                print(row)
                 writer.writerow(row)
-
-    def _folder_report_info(self, parent_path, num=0):
-        name = self.name
-        path_to_folder = os.path.join(parent_path, name)
-        records = [[path_to_folder, name, self.folder_upload_email_address]]
-
-        num = num + 1
-        print_progress(num)
-
-        for item in self.items:
-            if type(item) is BoxFolder:
-                (num, new_records) = item._folder_report_info(
-                    path_to_folder, num)
-                records = records + new_records
-        return (num, records)
 
     def folder_access_stats_report(self, rep_dir=os.getcwd()):
         """Save a CSV formatted report of access stats
@@ -320,27 +308,16 @@ class BoxFolder(BoxItem):
         report_path = str(
             os.path.join(rep_dir, self.nowstamp() + '-access_stats.csv'))
 
-        (num, records) = self._folder_access_stats_report_info('')
+        headers = ['path', 'name', 'preview_count', 'download_count']
+        (num, records) = self._item_attribute_records(headers)
 
         with open(report_path, 'w', newline='') as csvfile:
             writer = csv.writer(csvfile)
-            writer.writerow(
-                ['path', 'name', 'preview_count', 'download_count'])
+            writer.writerow(headers)
+            print(headers)
             for row in records:
+                print(row)
                 writer.writerow(row)
-
-    def _folder_access_stats_report_info(self, parent_path, num=0):
-        # pdb.set_trace()
-        name = self.name
-        path_to_item = os.path.join(parent_path, name)
-        (num, records) = super(
-            BoxFolder, self)._folder_access_stats_report_info(parent_path,
-                                                              num=num)
-        for item in self.items:
-            (num, new_records) = item._folder_access_stats_report_info(
-                path_to_item, num=num)
-            records = records + new_records
-        return (num, records)
 
     def _item_attribute_records(self, headers, num=0):
         (num, records) = super(
@@ -358,7 +335,7 @@ class BoxFolder(BoxItem):
         """
 
         report_path = str(
-            os.path.join(rep_dir, self.nowstamp() + '-' + str(self.id )+ '-complete_report.csv'))
+            os.path.join(rep_dir, self.nowstamp() + '-' + str(self.id) + '-complete_report.csv'))
 
         headers = self.all_useful_fields
         (num, records) = self._item_attribute_records(headers)

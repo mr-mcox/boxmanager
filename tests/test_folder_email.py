@@ -31,7 +31,7 @@ def nested_folder_with_emails(monkeypatch):
     fold1 = BoxFolder()
     fold1._folder_upload_email_address = 'email1'
     setattr(fold1, 'name', 'fold1')
-    fold2 = BoxFolder()
+    fold2 = BoxFolder(parent=fold1)
     fold2._folder_upload_email_address = 'email2'
     setattr(fold2, 'name', 'fold2')
 
@@ -68,7 +68,7 @@ def test_enable_folder_upload_email_nested(nested_folder):
 def test_create_report_of_emails(tmpdir, nested_folder_with_emails):
     with open(str(tmpdir.join('expected.csv')), 'w', newline='') as csvfile:
         writer = csv.writer(csvfile)
-        writer.writerow(['path', 'name', 'email'])
+        writer.writerow(['path', 'name', 'folder_upload_email_address'])
         writer.writerow(['fold1', 'fold1', 'email1'])
         writer.writerow(['fold1/fold2', 'fold2', 'email1'])
     box_folder = nested_folder_with_emails

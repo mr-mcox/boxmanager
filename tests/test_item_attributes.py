@@ -20,4 +20,4 @@ def nested_file(monkeypatch):
 
 
 def test_path(nested_file):
-    assert nested_file.path == '/fold1/fold2/file1'
+    assert nested_file.path == 'fold1/fold2/file1'

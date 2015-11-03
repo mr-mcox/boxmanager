@@ -57,9 +57,9 @@
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
 <p>Run the following command from the Annaconda Command Prompt</p>
-<p><em>pip3 install git+https://github.com/mr-mcox/boxmanager.git&#64;v0.3#egg=boxmanager</em></p>
+<p><em>pip3 install git+https://github.com/mr-mcox/boxmanager.git&#64;v0.4#egg=boxmanager</em></p>
 <p>If you&#8217;ve already installed it, then you&#8217;ll need to run a modified version to update:</p>
-<p><em>pip3 install &#8211;update git+https://github.com/mr-mcox/boxmanager.git&#64;v0.3#egg=boxmanager</em></p>
+<p><em>pip3 install &#8211;upgrade git+https://github.com/mr-mcox/boxmanager.git&#64;v0.4#egg=boxmanager</em></p>
 </div>
 <div class="section" id="initial-setup">
 <h2>Initial setup<a class="headerlink" href="#initial-setup" title="Permalink to this headline">¶</a></h2>
@@ -68,9 +68,12 @@
 <div class="section" id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
 <p>Here are sample commands you can run. Each of these must be run from the folder with the config file.</p>
-<p><em>python -m boxmanager.cli enable_shared_link -f BOXFOLDERID</em></p>
-<p><em>python -m boxmanager.cli enable_folder_upload_email -f BOXFOLDERID</em></p>
-<p><em>python -m boxmanager.cli folder_upload_email_report -f BOXFOLDERID</em></p>
+<p><em>python -m boxmanager.cli enable_shared_link BOXFOLDERID</em></p>
+<p><em>python -m boxmanager.cli enable_folder_upload_email BOXFOLDERID</em></p>
+<p><em>python -m boxmanager.cli folder_upload_email_report BOXFOLDERID</em></p>
+<p><em>python -m boxmanager.cli folder_access_stats_report BOXFOLDERID</em></p>
+<p><em>python -m boxmanager.cli complete_report BOXFOLDERID</em></p>
+<p><em>python -m boxmanager.cli complete_report BOXFOLDERID -d OUTPUT_DIRECTORY</em></p>
 <p>Substitute BOXFOLDERID with the integer ID for the root folder you are running the command for</p>
 </div>
 </div>

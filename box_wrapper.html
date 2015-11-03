@@ -52,11 +52,11 @@
 <span id="box-wrapper"></span><h1>Box Wrapper<a class="headerlink" href="#module-boxmanager.box_wrapper" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="boxmanager.box_wrapper.BoxFile">
-<em class="property">class </em><tt class="descclassname">boxmanager.box_wrapper.</tt><tt class="descname">BoxFile</tt><big>(</big><em>client=None</em>, <em>file_id=None</em>, <em>item=None</em><big>)</big><a class="reference internal" href="_modules/boxmanager/box_wrapper.html#BoxFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#boxmanager.box_wrapper.BoxFile" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">boxmanager.box_wrapper.</tt><tt class="descname">BoxFile</tt><big>(</big><em>client=None</em>, <em>file_id=None</em>, <em>item=None</em>, <em>parent=None</em><big>)</big><a class="reference internal" href="_modules/boxmanager/box_wrapper.html#BoxFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#boxmanager.box_wrapper.BoxFile" title="Permalink to this definition">¶</a></dt>
 <dd><p>Wrapper for BoxSDK File</p>
 <dl class="method">
 <dt id="boxmanager.box_wrapper.BoxFile.__init__">
-<tt class="descname">__init__</tt><big>(</big><em>client=None</em>, <em>file_id=None</em>, <em>item=None</em><big>)</big><a class="reference internal" href="_modules/boxmanager/box_wrapper.html#BoxFile.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#boxmanager.box_wrapper.BoxFile.__init__" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">__init__</tt><big>(</big><em>client=None</em>, <em>file_id=None</em>, <em>item=None</em>, <em>parent=None</em><big>)</big><a class="reference internal" href="_modules/boxmanager/box_wrapper.html#BoxFile.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#boxmanager.box_wrapper.BoxFile.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>File must be initated with either the client and file_id
 or an already created Box File</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -78,11 +78,11 @@ or an already created Box File</p>
 
 <dl class="class">
 <dt id="boxmanager.box_wrapper.BoxFolder">
-<em class="property">class </em><tt class="descclassname">boxmanager.box_wrapper.</tt><tt class="descname">BoxFolder</tt><big>(</big><em>client=None</em>, <em>folder_id=None</em>, <em>item=None</em><big>)</big><a class="reference internal" href="_modules/boxmanager/box_wrapper.html#BoxFolder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#boxmanager.box_wrapper.BoxFolder" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">boxmanager.box_wrapper.</tt><tt class="descname">BoxFolder</tt><big>(</big><em>client=None</em>, <em>folder_id=None</em>, <em>item=None</em>, <em>parent=None</em><big>)</big><a class="reference internal" href="_modules/boxmanager/box_wrapper.html#BoxFolder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#boxmanager.box_wrapper.BoxFolder" title="Permalink to this definition">¶</a></dt>
 <dd><p>Wrapper for BoxSDK Folder</p>
 <dl class="method">
 <dt id="boxmanager.box_wrapper.BoxFolder.__init__">
-<tt class="descname">__init__</tt><big>(</big><em>client=None</em>, <em>folder_id=None</em>, <em>item=None</em><big>)</big><a class="reference internal" href="_modules/boxmanager/box_wrapper.html#BoxFolder.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#boxmanager.box_wrapper.BoxFolder.__init__" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">__init__</tt><big>(</big><em>client=None</em>, <em>folder_id=None</em>, <em>item=None</em>, <em>parent=None</em><big>)</big><a class="reference internal" href="_modules/boxmanager/box_wrapper.html#BoxFolder.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#boxmanager.box_wrapper.BoxFolder.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Folder must be initated with either the client and folder_id
 or an already created Box Folder</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -95,6 +95,20 @@ or an already created Box Folder</p>
 <li><strong>item</strong> &#8211; The Box item</li>
 </ul>
 </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="boxmanager.box_wrapper.BoxFolder.complete_report">
+<tt class="descname">complete_report</tt><big>(</big><em>rep_dir='/Users/mcox/Code/Python/boxmanager/docs'</em><big>)</big><a class="reference internal" href="_modules/boxmanager/box_wrapper.html#BoxFolder.complete_report"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#boxmanager.box_wrapper.BoxFolder.complete_report" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save a CSV formatted report of a variety of statistics</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rep_dir</strong> (<em>str</em>) &#8211; The directory to place the report in (defaults to current directory)</td>
 </tr>
 </tbody>
 </table>
@@ -151,8 +165,8 @@ or an already created Box Folder</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="boxmanager.box_wrapper.BoxFolder.folder_upload_email_report">
-<tt class="descname">folder_upload_email_report</tt><big>(</big><em>rep_dir='/Users/mcox/Code/Python/boxmanager/docs'</em><big>)</big><a class="reference internal" href="_modules/boxmanager/box_wrapper.html#BoxFolder.folder_upload_email_report"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#boxmanager.box_wrapper.BoxFolder.folder_upload_email_report" title="Permalink to this definition">¶</a></dt>
+<dt id="boxmanager.box_wrapper.BoxFolder.folder_upload_email_address_report">
+<tt class="descname">folder_upload_email_address_report</tt><big>(</big><em>rep_dir='/Users/mcox/Code/Python/boxmanager/docs'</em><big>)</big><a class="reference internal" href="_modules/boxmanager/box_wrapper.html#BoxFolder.folder_upload_email_address_report"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#boxmanager.box_wrapper.BoxFolder.folder_upload_email_address_report" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save a CSV formatted report of folder emails</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -175,7 +189,7 @@ that are children of this folder</p>
 
 <dl class="class">
 <dt id="boxmanager.box_wrapper.BoxItem">
-<em class="property">class </em><tt class="descclassname">boxmanager.box_wrapper.</tt><tt class="descname">BoxItem</tt><a class="reference internal" href="_modules/boxmanager/box_wrapper.html#BoxItem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#boxmanager.box_wrapper.BoxItem" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">boxmanager.box_wrapper.</tt><tt class="descname">BoxItem</tt><big>(</big><em>response_object=None</em>, <em>parent=None</em><big>)</big><a class="reference internal" href="_modules/boxmanager/box_wrapper.html#BoxItem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#boxmanager.box_wrapper.BoxItem" title="Permalink to this definition">¶</a></dt>
 <dd><p>Wrapper for BoxSDK Item</p>
 </dd></dl>
 

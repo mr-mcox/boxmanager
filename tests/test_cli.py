@@ -12,8 +12,8 @@ def test_call_shared_links(monkeypatch):
     monkeypatch.setattr(BoxFolder, 'set_box_item', set_box_item_mock)
     monkeypatch.setattr(BoxAuthenticator, 'box_client', 'the_client')
 
-    parse_command_line(['enable_shared_link', '-f', '1234'])
-    set_box_item_mock.assert_called_with('the_client', '1234')
+    parse_command_line(['enable_shared_link', '1234'])
+    set_box_item_mock.assert_called_with('the_client', 1234)
     enable_shared_link_mock.assert_called_with(recursive=True)
 
 
@@ -25,8 +25,8 @@ def test_call_folder_upload_emails(monkeypatch):
     monkeypatch.setattr(BoxFolder, 'set_box_item', set_box_item_mock)
     monkeypatch.setattr(BoxAuthenticator, 'box_client', 'the_client')
 
-    parse_command_line(['enable_folder_upload_email', '-f', '1234'])
-    set_box_item_mock.assert_called_with('the_client', '1234')
+    parse_command_line(['enable_folder_upload_email', '1234'])
+    set_box_item_mock.assert_called_with('the_client', 1234)
     enable_folder_upload_email_mock.assert_called_with(recursive=True)
 
 def test_create_folder_email_report(monkeypatch):
@@ -37,8 +37,8 @@ def test_create_folder_email_report(monkeypatch):
     monkeypatch.setattr(BoxFolder, 'set_box_item', set_box_item_mock)
     monkeypatch.setattr(BoxAuthenticator, 'box_client', 'the_client')
 
-    parse_command_line(['folder_upload_email_address_report', '-f', '1234'])
-    set_box_item_mock.assert_called_with('the_client', '1234')
+    parse_command_line(['folder_upload_email_address_report', '1234'])
+    set_box_item_mock.assert_called_with('the_client', 1234)
     folder_upload_email_report_mock.assert_called_with()
 
 def test_folder_access_stats_report(monkeypatch):
@@ -49,8 +49,8 @@ def test_folder_access_stats_report(monkeypatch):
     monkeypatch.setattr(BoxFolder, 'set_box_item', set_box_item_mock)
     monkeypatch.setattr(BoxAuthenticator, 'box_client', 'the_client')
 
-    parse_command_line(['folder_access_stats_report', '-f', '1234'])
-    set_box_item_mock.assert_called_with('the_client', '1234')
+    parse_command_line(['folder_access_stats_report', '1234'])
+    set_box_item_mock.assert_called_with('the_client', 1234)
     folder_access_stats_report_mock.assert_called_with()
 
 def test_complete_report(monkeypatch):
@@ -61,6 +61,6 @@ def test_complete_report(monkeypatch):
     monkeypatch.setattr(BoxFolder, 'set_box_item', set_box_item_mock)
     monkeypatch.setattr(BoxAuthenticator, 'box_client', 'the_client')
 
-    parse_command_line(['complete_report', '-f', '1234'])
-    set_box_item_mock.assert_called_with('the_client', '1234')
+    parse_command_line(['complete_report', '1234'])
+    set_box_item_mock.assert_called_with('the_client', 1234)
     complete_report_mock.assert_called_with()

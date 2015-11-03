@@ -7,8 +7,8 @@ def parse_command_line(cli_input=None):
     parser = argparse.ArgumentParser()
     parser.add_argument("command", help="command to execute",
                         type=str)
-    parser.add_argument(
-        "-f", "--folder", action='store', help="id of folder to use")
+    parser.add_argument("box_id", help="id of box object to use",
+                        type=int)
     args = None
     if cli_input is not None:
         args = parser.parse_args(cli_input)
@@ -20,27 +20,27 @@ def parse_command_line(cli_input=None):
     client = BoxAuthenticator().box_client
 
     if args.command == 'enable_shared_link':
-        folder = BoxFolder(client, args.folder)
+        folder = BoxFolder(client, args.box_id)
         folder.enable_shared_link(recursive=True)
         command_handled = True
 
     if args.command == 'enable_folder_upload_email':
-        folder = BoxFolder(client, args.folder)
+        folder = BoxFolder(client, args.box_id)
         folder.enable_folder_upload_email(recursive=True)
         command_handled = True
 
     if args.command == 'folder_upload_email_address_report':
-        folder = BoxFolder(client, args.folder)
+        folder = BoxFolder(client, args.box_id)
         folder.folder_upload_email_address_report()
         command_handled = True
 
     if args.command == 'folder_access_stats_report':
-        folder = BoxFolder(client, args.folder)
+        folder = BoxFolder(client, args.box_id)
         folder.folder_access_stats_report()
         command_handled = True
 
     if args.command == 'complete_report':
-        folder = BoxFolder(client, args.folder)
+        folder = BoxFolder(client, args.box_id)
         folder.complete_report()
         command_handled = True
 

@@ -29,6 +29,7 @@ def test_call_folder_upload_emails(monkeypatch):
     set_box_item_mock.assert_called_with('the_client', 1234)
     enable_folder_upload_email_mock.assert_called_with(recursive=True)
 
+
 def test_create_folder_email_report(monkeypatch):
     folder_upload_email_report_mock = MagicMock()
     set_box_item_mock = MagicMock()
@@ -40,6 +41,7 @@ def test_create_folder_email_report(monkeypatch):
     parse_command_line(['folder_upload_email_address_report', '1234'])
     set_box_item_mock.assert_called_with('the_client', 1234)
     folder_upload_email_report_mock.assert_called_with()
+
 
 def test_folder_access_stats_report(monkeypatch):
     folder_access_stats_report_mock = MagicMock()
@@ -53,6 +55,7 @@ def test_folder_access_stats_report(monkeypatch):
     set_box_item_mock.assert_called_with('the_client', 1234)
     folder_access_stats_report_mock.assert_called_with()
 
+
 def test_complete_report(monkeypatch):
     complete_report_mock = MagicMock()
     set_box_item_mock = MagicMock()
@@ -64,3 +67,16 @@ def test_complete_report(monkeypatch):
     parse_command_line(['complete_report', '1234'])
     set_box_item_mock.assert_called_with('the_client', 1234)
     complete_report_mock.assert_called_with()
+
+
+def test_report_to_be_saved_in_other_folder(monkeypatch):
+    complete_report_mock = MagicMock()
+    set_box_item_mock = MagicMock()
+    monkeypatch.setattr(
+        BoxFolder, 'complete_report', complete_report_mock)
+    monkeypatch.setattr(BoxFolder, 'set_box_item', set_box_item_mock)
+    monkeypatch.setattr(BoxAuthenticator, 'box_client', 'the_client')
+
+    parse_command_line(['complete_report', '1234', '-d', '../outputs'])
+    set_box_item_mock.assert_called_with('the_client', 1234)
+    complete_report_mock.assert_called_with(rep_dir='../outputs')

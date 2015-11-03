@@ -9,6 +9,8 @@ def parse_command_line(cli_input=None):
                         type=str)
     parser.add_argument("box_id", help="id of box object to use",
                         type=int)
+    parser.add_argument('-d', "--directory", help="directory for outputs",
+                        type=str, action='store')
     args = None
     if cli_input is not None:
         args = parser.parse_args(cli_input)
@@ -41,7 +43,10 @@ def parse_command_line(cli_input=None):
 
     if args.command == 'complete_report':
         folder = BoxFolder(client, args.box_id)
-        folder.complete_report()
+        if args.directory is not None:
+            folder.complete_report(rep_dir=args.directory)
+        else:
+            folder.complete_report()
         command_handled = True
 
     assert command_handled, "Command not recognized " + args.command

@@ -64,7 +64,7 @@ class BoxItem(object):
     @property
     def path(self):
         if not hasattr(self, '_path'):
-            if self.parent == None:
+            if self.parent is None:
                 self._path = self.name
             else:
                 self._path = os.path.join(self.parent.path, self.name)
@@ -75,7 +75,9 @@ class BoxItem(object):
         path_to_item = os.path.join(parent_path, name)
         num = num + 1
         print_progress(num)
-        return (num, [[path_to_item, name, self.preview_count, self.download_count]])
+        return (num, [[path_to_item, name,
+                       self.preview_count,
+                       self.download_count]])
 
     def _item_attribute_records(self, headers, num=0):
         num = num + 1

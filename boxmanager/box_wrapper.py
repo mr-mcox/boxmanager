@@ -69,6 +69,17 @@ class BoxItem(object):
         print_progress(num)
         return (num, [[path_to_item, name, self.preview_count, self.download_count]])
 
+    def _item_attribute_records(self, headers, num=0):
+        num = num + 1
+        print_progress(num)
+        records = list()
+        for head in headers:
+            if hasattr(self, head):
+                records.append(getattr(self, head))
+            else:
+                records.append(None)
+        return (num, [records])
+
     def nowstamp(self):
         return datetime.utcnow().strftime('%Y%m%d%H%M')
 
@@ -103,7 +114,7 @@ class BoxItem(object):
                        'item_status',
                        'content_modified_at']
     all_useful_fields = non_dict_fields + \
-        ['shared_link', 'folder_upload_email']
+        ['shared_link', 'folder_upload_email', 'download_count', 'preview_count']
 
 
 class BoxFile(BoxItem):
@@ -321,3 +332,30 @@ class BoxFolder(BoxItem):
                 path_to_item, num=num)
             records = records + new_records
         return (num, records)
+
+    def _item_attribute_records(self, headers, num=0):
+        (num, records) = super(BoxFolder, self)._item_attribute_records(headers, num=num)
+        for item in self.items:
+            (num, new_records) = item._item_attribute_records(headers, num=num)
+            records = records + new_records
+        return (num, records)
+
+    def complete_report(self, rep_dir=os.getcwd()):
+        """Save a CSV formatted report of a variety of statistics
+
+        :param str rep_dir:
+            The directory to place the report in (defaults to current directory)
+        """
+
+        report_path = str(
+            os.path.join(rep_dir, self.nowstamp() + '-complete_report.csv'))
+
+        headers = self.all_useful_fields
+        (num, records) = self._item_attribute_records(headers)
+
+        with open(report_path, 'w', newline='') as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerow(
+                headers)
+            for row in records:
+                writer.writerow(row)

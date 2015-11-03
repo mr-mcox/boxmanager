@@ -3,7 +3,6 @@ from boxsdk.object.file import File
 import os
 import csv
 from datetime import datetime
-import pdb
 
 
 def print_progress(num):
@@ -14,8 +13,8 @@ class BoxItem(object):
 
     """Wrapper for BoxSDK Item"""
 
-    def __init__(self, response_object=None):
-        pass
+    def __init__(self, response_object=None, parent=None):
+        self.parent = parent
 
     def get_shared_link(self):
         return self._box_item.get_shared_link()
@@ -61,6 +60,15 @@ class BoxItem(object):
             else:
                 self._preview_count = None
         return self._preview_count
+
+    @property
+    def path(self):
+        if not hasattr(self, '_path'):
+            if self.parent == None:
+                self._path = os.path.join('/', self.name)
+            else:
+                self._path = os.path.join(self.parent.path, self.name)
+        return self._path
 
     def _folder_access_stats_report_info(self, parent_path, num=0):
         name = self.name
@@ -114,14 +122,15 @@ class BoxItem(object):
                        'item_status',
                        'content_modified_at']
     all_useful_fields = non_dict_fields + \
-        ['shared_link', 'folder_upload_email', 'download_count', 'preview_count']
+        ['path','shared_link', 'folder_upload_email',
+            'download_count', 'preview_count']
 
 
 class BoxFile(BoxItem):
 
     """Wrapper for BoxSDK File"""
 
-    def __init__(self, client=None, file_id=None, item=None):
+    def __init__(self, client=None, file_id=None, item=None, parent=None):
         """File must be initated with either the client and file_id
         or an already created Box File
 
@@ -138,7 +147,7 @@ class BoxFile(BoxItem):
         :type item:
             :class: `File`
         """
-        super(BoxFile, self).__init__()
+        super(BoxFile, self).__init__(parent=parent)
         if item is not None:
             self._box_item = item
             self.setup_fields()
@@ -154,7 +163,7 @@ class BoxFolder(BoxItem):
 
     """Wrapper for BoxSDK Folder"""
 
-    def __init__(self, client=None, folder_id=None, item=None):
+    def __init__(self, client=None, folder_id=None, item=None, parent=None):
         """Folder must be initated with either the client and folder_id
         or an already created Box Folder
 
@@ -172,7 +181,7 @@ class BoxFolder(BoxItem):
             :class: `Folder`
         """
 
-        super(BoxFolder, self).__init__()
+        super(BoxFolder, self).__init__(parent=parent)
 
         self.item_limit = 200
 
@@ -197,9 +206,9 @@ class BoxFolder(BoxItem):
             items = list()
             for item in box_items:
                 if type(item) is File:
-                    items.append(BoxFile(item=item))
+                    items.append(BoxFile(item=item, parent=self))
                 elif type(item) is Folder:
-                    items.append(BoxFolder(item=item))
+                    items.append(BoxFolder(item=item, parent=self))
             self._items = items
         return self._items
 
@@ -334,7 +343,8 @@ class BoxFolder(BoxItem):
         return (num, records)
 
     def _item_attribute_records(self, headers, num=0):
-        (num, records) = super(BoxFolder, self)._item_attribute_records(headers, num=num)
+        (num, records) = super(
+            BoxFolder, self)._item_attribute_records(headers, num=num)
         for item in self.items:
             (num, new_records) = item._item_attribute_records(headers, num=num)
             records = records + new_records
@@ -348,7 +358,7 @@ class BoxFolder(BoxItem):
         """
 
         report_path = str(
-            os.path.join(rep_dir, self.nowstamp() + '-complete_report.csv'))
+            os.path.join(rep_dir, self.nowstamp() + '-' + str(self.id )+ '-complete_report.csv'))
 
         headers = self.all_useful_fields
         (num, records) = self._item_attribute_records(headers)

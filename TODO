@@ -1,9 +1,10 @@
 Kitchen sink report:
  ✔ Create property factory for items @done (15-11-03 08:40)
  ✔ Create kitchen sink report @done (15-11-03 09:33)
- ☐ Create path attribute
- ☐ Complete report name includes id of based folder
+ ✔ Create path attribute @done (15-11-03 13:06)
+ ✔ Complete report name includes id of based folder @done (15-11-03 13:06)
  ☐ Folder is no longer an optional attribute in CLI
+ ☐ Refactor other reports to utilize complete report infrastructure
  ☐ Save report in other folder
  ☐ Sync report to box folder
 

@@ -13,6 +13,7 @@ def nested_folder_with_various_stats(monkeypatch):
     monkeypatch.setattr(BoxItem, 'has_shared_link', True)
 
     fold1 = BoxFolder()
+    fold1.id = 42
     fold1._download_count = 1
     fold1._preview_count = 2
     fold1.description = 'A folder with stuff in it'
@@ -30,9 +31,10 @@ def nested_folder_with_various_stats(monkeypatch):
     fold2._items = [file1]
     return fold1
 
+
 def test_complete_report(monkeypatch,
-                           tmpdir,
-                           nested_folder_with_various_stats):
+                         tmpdir,
+                         nested_folder_with_various_stats):
     def nowstamp(self):
         return datetime(2015, 10, 30, 20, 20, 38).strftime('%Y%m%d%H%M')
 
@@ -49,7 +51,7 @@ def test_complete_report(monkeypatch,
             row = list()
             for head in header:
                 if hasattr(item, head):
-                    row.append(getattr(item,head))
+                    row.append(getattr(item, head))
                 else:
                     row.append(None)
             writer.writerow(row)
@@ -59,6 +61,6 @@ def test_complete_report(monkeypatch,
 
     expected_csv = str(tmpdir.join('expected.csv'))
     actual_csv = str(
-        tmpdir.join(nowstamp(None) + '-complete_report.csv'))
+        tmpdir.join(nowstamp(None) + '-' + str(fold1.id) + '-complete_report.csv'))
 
     assert filecmp.cmp(expected_csv, actual_csv)

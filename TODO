@@ -6,7 +6,7 @@ Kitchen sink report:
  ✔ Folder is no longer an optional attribute in CLI @done (15-11-03 13:11)
  ✔ Refactor other reports to utilize complete report infrastructure @done (15-11-03 13:31)
  ✔ Save report in other folder @done (15-11-03 13:40)
- ☐ Sync report to box folder
+ ✔ Sync report to box folder @done (15-11-04 10:29)
 
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 Archive:

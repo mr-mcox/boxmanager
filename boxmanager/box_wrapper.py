@@ -187,6 +187,8 @@ class BoxFolder(BoxItem):
 
         self.item_limit = 200
 
+        self.client = client
+
         if item is not None:
             self._box_item = item
             self.setup_fields()
@@ -213,6 +215,13 @@ class BoxFolder(BoxItem):
                     items.append(BoxFolder(item=item, parent=self))
             self._items = items
         return self._items
+
+    def upload(self, file_path, file_name):
+        self._box_item.upload(file_path=file_path, file_name=file_name)
+
+    def upload_and_remove_local(self, file_path, file_name):
+        self.upload(file_path=file_path, file_name=file_name)
+        os.remove(file_path)
 
     def enable_shared_link(self, recursive=False, num=0):
         """Enable shared link for the folder
@@ -329,15 +338,15 @@ class BoxFolder(BoxItem):
             records = records + new_records
         return (num, records)
 
-    def complete_report(self, rep_dir=os.getcwd()):
+    def complete_report(self, rep_dir=os.getcwd(), box_folder=None):
         """Save a CSV formatted report of a variety of statistics
 
         :param str rep_dir:
             The directory to place the report in (defaults to current directory)
         """
-
-        report_path = str(
-            os.path.join(rep_dir, self.nowstamp() + '-' + str(self.id) + '-complete_report.csv'))
+        report_name = self.nowstamp() + '-' + str(self.id) + \
+            '-complete_report.csv'
+        report_path = str(os.path.join(rep_dir, report_name))
 
         headers = self.all_useful_fields
         (num, records) = self._item_attribute_records(headers)
@@ -348,3 +357,8 @@ class BoxFolder(BoxItem):
                 headers)
             for row in records:
                 writer.writerow(row)
+
+        if box_folder is not None:
+            bf = BoxFolder(client=self.client, folder_id=box_folder)
+            bf.upload_and_remove_local(
+                file_path=report_path, file_name=report_name)

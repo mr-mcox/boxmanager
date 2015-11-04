@@ -1,6 +1,7 @@
 import argparse
 from boxmanager.box_wrapper import BoxFolder
 from boxmanager.authenticate import BoxAuthenticator
+import re
 
 
 def parse_command_line(cli_input=None):
@@ -44,7 +45,10 @@ def parse_command_line(cli_input=None):
     if args.command == 'complete_report':
         folder = BoxFolder(client, args.box_id)
         if args.directory is not None:
-            folder.complete_report(rep_dir=args.directory)
+            if re.search('^\d+$', args.directory):
+                folder.complete_report(box_folder=int(args.directory))
+            else:
+                folder.complete_report(rep_dir=args.directory)
         else:
             folder.complete_report()
         command_handled = True

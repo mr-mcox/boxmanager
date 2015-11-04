@@ -80,3 +80,15 @@ def test_report_to_be_saved_in_other_folder(monkeypatch):
     parse_command_line(['complete_report', '1234', '-d', '../outputs'])
     set_box_item_mock.assert_called_with('the_client', 1234)
     complete_report_mock.assert_called_with(rep_dir='../outputs')
+
+def test_report_to_be_saved_to_box_sync(monkeypatch):
+    complete_report_mock = MagicMock()
+    set_box_item_mock = MagicMock()
+    monkeypatch.setattr(
+        BoxFolder, 'complete_report', complete_report_mock)
+    monkeypatch.setattr(BoxFolder, 'set_box_item', set_box_item_mock)
+    monkeypatch.setattr(BoxAuthenticator, 'box_client', 'the_client')
+
+    parse_command_line(['complete_report', '1234', '-d', '11111'])
+    set_box_item_mock.assert_called_with('the_client', 1234)
+    complete_report_mock.assert_called_with(box_folder=11111)

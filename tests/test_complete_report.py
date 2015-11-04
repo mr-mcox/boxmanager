@@ -31,12 +31,12 @@ def nested_folder_with_various_stats(monkeypatch):
     fold2._items = [file1]
     return fold1
 
+@pytest.fixture
+def nowstamp():
+    return lambda x: datetime(2015, 10, 30, 20, 20, 38).strftime('%Y%m%d%H%M')
 
-def test_complete_report(monkeypatch,
-                         tmpdir,
-                         nested_folder_with_various_stats):
-    def nowstamp(self):
-        return datetime(2015, 10, 30, 20, 20, 38).strftime('%Y%m%d%H%M')
+@pytest.fixture
+def expected_csv(monkeypatch, tmpdir, nowstamp, nested_folder_with_various_stats):
 
     monkeypatch.setattr(BoxItem, 'nowstamp', nowstamp)
     header = BoxItem().all_useful_fields
@@ -55,12 +55,37 @@ def test_complete_report(monkeypatch,
                 else:
                     row.append(None)
             writer.writerow(row)
+    
+
+    return str(tmpdir.join('expected.csv'))
+
+
+def test_complete_report(monkeypatch,
+                         tmpdir,
+                         nested_folder_with_various_stats, nowstamp, expected_csv):
+
     box_folder = nested_folder_with_various_stats
-
     box_folder.complete_report(rep_dir=str(tmpdir))
+    fold1 = nested_folder_with_various_stats
 
-    expected_csv = str(tmpdir.join('expected.csv'))
     actual_csv = str(
         tmpdir.join(nowstamp(None) + '-' + str(fold1.id) + '-complete_report.csv'))
 
     assert filecmp.cmp(expected_csv, actual_csv)
+
+def test_complete_report_and_upload(monkeypatch,
+                         tmpdir,
+                         nested_folder_with_various_stats, nowstamp, expected_csv):
+
+    box_folder = nested_folder_with_various_stats
+
+    monkeypatch.setattr(BoxFolder, 'set_box_item', MagicMock())
+    upload_mock = MagicMock()
+    monkeypatch.setattr(BoxFolder, 'upload_and_remove_local', upload_mock)
+    box_folder.complete_report(rep_dir=str(tmpdir), box_folder=1234)
+
+    fold1 = nested_folder_with_various_stats
+    actual_csv_name = nowstamp(None) + '-' + str(fold1.id) + '-complete_report.csv'
+    actual_csv_path = str(tmpdir.join(actual_csv_name))
+
+    upload_mock.assert_called_with(file_path=actual_csv_path, file_name=actual_csv_name )

@@ -9,6 +9,7 @@ from datetime import datetime
 def mocked_folder(monkeypatch):
     monkeypatch.setattr(BoxFolder, 'set_box_item', MagicMock())
     bf = BoxFolder(None, None)
+    bf.shared_link = 'link'
     bf._box_item = MagicMock()
     return bf
 
@@ -19,6 +20,8 @@ def folder_with_files(monkeypatch, mocked_folder):
     monkeypatch.setattr(BoxFile, 'enable_shared_link', MagicMock())
     f1 = BoxFile(None, None)
     f2 = BoxFile(None, None)
+    f1.shared_link = 'link'
+    f2.shared_link = 'link'
 
     monkeypatch.setattr(BoxFolder, 'items', [f1, f2])
     bf = mocked_folder
@@ -30,6 +33,7 @@ def nested_folder(monkeypatch, mocked_folder):
     monkeypatch.setattr(BoxFolder, 'set_box_item', MagicMock())
     fold1 = BoxFolder()
     fold1.enable_shared_link = MagicMock()
+    fold1.shared_link = 'link'
 
     monkeypatch.setattr(BoxFolder, 'items', [fold1])
     bf = mocked_folder
@@ -62,7 +66,7 @@ def nested_folder_with_access_stats(monkeypatch):
 
 def test_enable_shared_link_folder(monkeypatch, mocked_folder):
     box_folder = mocked_folder
-    box_folder._shared_link = None
+    box_folder.shared_link = None
     with patch.object(BoxFolder, 'get_shared_link', return_value='link') as sl_mock:
         box_folder.enable_shared_link()
     sl_mock.assert_called_with()

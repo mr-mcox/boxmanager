@@ -21,3 +21,21 @@ def nested_file(monkeypatch):
 
 def test_path(nested_file):
     assert nested_file.path == 'fold1/fold2/file1'
+
+
+def test_set_attr_basic(monkeypatch):
+    item = BoxItem()
+    item.add_attribute('key', 'value')
+
+    assert hasattr(item, 'key')
+    assert getattr(item, 'key') == 'value'
+
+
+def test_set_attr_dict(monkeypatch):
+    item = BoxItem()
+    value = {'key2': 'value2'}
+    item.add_attribute('key', value)
+
+    assert hasattr(item, 'key_key2')
+    assert getattr(item, 'key_key2') == 'value2'
+    assert 'key_key2' in item.all_useful_fields

@@ -135,9 +135,7 @@ class BoxItem(object):
                        'item_status',
                        'content_modified_at',
                        'shared_link']
-    all_useful_fields = non_dict_fields + \
-        ['path', 'folder_upload_email',
-            'download_count', 'preview_count']
+    all_useful_fields = non_dict_fields + ['path']
 
 
 class BoxFile(BoxItem):

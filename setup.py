@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 setup(name='boxmanager',
-      version='0.4.2',
+      version='0.4.3',
       packages=find_packages(exclude=['docs', 'tests']),
       install_requires=['boxsdk>=1.2.2',
                         'et-xmlfile>=1.0.1',

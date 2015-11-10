@@ -4,6 +4,7 @@ import os
 import csv
 from datetime import datetime
 import logging
+import pandas as pd
 
 def print_progress(num):
     print("Completed {} items".format(num), end='\r')
@@ -362,18 +363,14 @@ class BoxFolder(BoxItem):
             The directory to place the report in (defaults to current directory)
         """
         report_name = self.nowstamp() + '-' + str(self.id) + \
-            '-complete_report.csv'
+           '-' + self.name + '-complete_report.xlsx'
         report_path = str(os.path.join(rep_dir, report_name))
 
         headers = self.all_useful_fields
         (num, records) = self._item_attribute_records(headers)
 
-        with open(report_path, 'w', newline='') as csvfile:
-            writer = csv.writer(csvfile)
-            writer.writerow(
-                headers)
-            for row in records:
-                writer.writerow(row)
+        df = pd.DataFrame.from_records(records, columns=headers)
+        df.to_excel(report_path, index=False)
 
         if box_folder is not None:
             bf = BoxFolder(client=self.client, folder_id=box_folder)

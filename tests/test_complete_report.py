@@ -4,6 +4,7 @@ import pytest
 import csv
 import filecmp
 from datetime import datetime
+import pandas as pd
 
 
 @pytest.fixture
@@ -31,12 +32,14 @@ def nested_folder_with_various_stats(monkeypatch):
     fold2._items = [file1]
     return fold1
 
+
 @pytest.fixture
 def nowstamp():
     return lambda x: datetime(2015, 10, 30, 20, 20, 38).strftime('%Y%m%d%H%M')
 
+
 @pytest.fixture
-def expected_csv(monkeypatch, tmpdir, nowstamp, nested_folder_with_various_stats):
+def expected_excel(monkeypatch, tmpdir, nowstamp, nested_folder_with_various_stats):
 
     monkeypatch.setattr(BoxItem, 'nowstamp', nowstamp)
     header = BoxItem().all_useful_fields
@@ -44,38 +47,55 @@ def expected_csv(monkeypatch, tmpdir, nowstamp, nested_folder_with_various_stats
     fold2 = fold1._items[0]
     file1 = fold2._items[0]
 
-    with open(str(tmpdir.join('expected.csv')), 'w', newline='') as csvfile:
-        writer = csv.writer(csvfile)
-        writer.writerow(header)
-        for item in [fold1, fold2, file1]:
-            row = list()
-            for head in header:
-                if hasattr(item, head):
-                    row.append(getattr(item, head))
-                else:
-                    row.append(None)
-            writer.writerow(row)
-    
+    records = list()
 
-    return str(tmpdir.join('expected.csv'))
+    for item in [fold1, fold2, file1]:
+        row = list()
+        for head in header:
+            if hasattr(item, head):
+                row.append(getattr(item, head))
+            else:
+                row.append(None)
+        records.append(row)
+
+    df = pd.DataFrame.from_records(records, columns=header)
+    df.to_excel(str(tmpdir.join('expected.xlsx')), index=False)
+
+    # with open(str(tmpdir.join('expected.xlsx')), 'w', newline='') as csvfile:
+    #     writer = csv.writer(csvfile)
+    #     writer.writerow(header)
+    #     for item in [fold1, fold2, file1]:
+    #         row = list()
+    #         for head in header:
+    #             if hasattr(item, head):
+    #                 row.append(getattr(item, head))
+    #             else:
+    #                 row.append(None)
+    #         writer.writerow(row)
+
+    return str(tmpdir.join('expected.xlsx'))
 
 
 def test_complete_report(monkeypatch,
                          tmpdir,
-                         nested_folder_with_various_stats, nowstamp, expected_csv):
+                         nested_folder_with_various_stats, nowstamp, expected_excel):
 
     box_folder = nested_folder_with_various_stats
     box_folder.complete_report(rep_dir=str(tmpdir))
     fold1 = nested_folder_with_various_stats
 
-    actual_csv = str(
-        tmpdir.join(nowstamp(None) + '-' + str(fold1.id) + '-complete_report.csv'))
+    actual_excel = str(
+        tmpdir.join(nowstamp(None) + '-' + str(fold1.id) + '-' + fold1.name + '-complete_report.xlsx'))
 
-    assert filecmp.cmp(expected_csv, actual_csv)
+    df_expected = pd.read_excel(expected_excel)
+    df_actual = pd.read_excel(actual_excel)
+
+    assert df_expected.equals(df_actual)
+
 
 def test_complete_report_and_upload(monkeypatch,
-                         tmpdir,
-                         nested_folder_with_various_stats, nowstamp, expected_csv):
+                                    tmpdir,
+                                    nested_folder_with_various_stats, nowstamp, expected_excel):
 
     box_folder = nested_folder_with_various_stats
 
@@ -85,7 +105,9 @@ def test_complete_report_and_upload(monkeypatch,
     box_folder.complete_report(rep_dir=str(tmpdir), box_folder=1234)
 
     fold1 = nested_folder_with_various_stats
-    actual_csv_name = nowstamp(None) + '-' + str(fold1.id) + '-complete_report.csv'
-    actual_csv_path = str(tmpdir.join(actual_csv_name))
+    actual_excel_name = nowstamp(
+        None) + '-' + str(fold1.id) + '-' + fold1.name + '-complete_report.xlsx'
+    actual_excel_path = str(tmpdir.join(actual_excel_name))
 
-    upload_mock.assert_called_with(file_path=actual_csv_path, file_name=actual_csv_name )
+    upload_mock.assert_called_with(
+        file_path=actual_excel_path, file_name=actual_excel_name)

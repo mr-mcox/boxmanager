@@ -30,6 +30,8 @@ class BoxItem(object):
 
     @property
     def has_shared_link(self):
+        if not hasattr(self, 'shared_link'):
+            return False
         return (self.shared_link is not None)
 
     def enable_shared_link(self):

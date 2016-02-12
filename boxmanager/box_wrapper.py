@@ -6,6 +6,7 @@ from datetime import datetime
 import logging
 import pandas as pd
 
+
 def print_progress(num):
     print("Completed {} items".format(num), end='\r')
 
@@ -108,7 +109,6 @@ class BoxItem(object):
         if key not in self.all_useful_fields:
             self.all_useful_fields.append(key)
 
-
     def setup_fields(self):
         logging.debug("setup_fields")
         box_item = self._box_item
@@ -119,7 +119,7 @@ class BoxItem(object):
             resp_object = box_item._response_object
         self._item_info = resp_object
         for key in resp_object.keys():
-            self.add_attribute( key, box_item[key])
+            self.add_attribute(key, box_item[key])
 
     non_dict_fields = ['purged_at',
                        'sequence_id',
@@ -224,8 +224,15 @@ class BoxFolder(BoxItem):
 
         if not hasattr(self, '_items'):
             logging.debug("items")
-            box_items = self._box_item.get_items(
-                self.item_limit, fields=self.non_dict_fields)
+            box_items = list()
+            offset = 0
+            new_items = self._box_item.get_items(
+                self.item_limit, offset=offset, fields=self.non_dict_fields)
+            while len(new_items) > 0:
+                box_items += new_items
+                offset += self.item_limit
+                new_items = self._box_item.get_items(
+                    self.item_limit, offset=offset, fields=self.non_dict_fields)
             items = list()
             for item in box_items:
                 if type(item) is File:
@@ -363,7 +370,7 @@ class BoxFolder(BoxItem):
             The directory to place the report in (defaults to current directory)
         """
         report_name = self.nowstamp() + '-' + str(self.id) + \
-           '-' + self.name + '-complete_report.xlsx'
+            '-' + self.name + '-complete_report.xlsx'
         report_path = str(os.path.join(rep_dir, report_name))
 
         headers = self.all_useful_fields

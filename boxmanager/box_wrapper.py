@@ -8,7 +8,7 @@ import pandas as pd
 
 
 def print_progress(num):
-    print("Completed {} items".format(num), end='\r')
+    print("Completed {} items".format(num), end="\r")
 
 
 class BoxItem(object):

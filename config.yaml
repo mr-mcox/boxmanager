@@ -1,0 +1,4 @@
+box_client_id: BOXCLIENTID
+box_client_secret: BOXCLIENTSECRET
+box_access_token_file: access_token.txt
+box_refresh_token_file: refresh_token.txt

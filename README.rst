@@ -13,7 +13,11 @@ If you've already installed it, then you'll need to run a modified version to up
 
 Initial setup
 =============
-You will need a special config file that has some secret information. Contact Matthew to get this.
+1. Sign up for a Box Developer account at https://developer.box.com
+2. Create a Box Application
+3. Copy the config.yaml file in this repository into the folder you want to run boxmanager from (this will likely be a new folder)
+4. Set the box client id and box client secret in the config.yaml file to the values from the Box Application you just created.
+5. You should now be able to follow instructions in the Set Up Folder For Running Box Manager at https://docs.google.com/document/d/1rAQHAlMB4d10K2Cb_rsJfKuiJJYmo2FY7Xbeu_elYB8/edit#heading=h.p2i5ksomg3bq
 
 Usage
 ======
